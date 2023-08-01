@@ -1,0 +1,56 @@
+import random
+import numpy as np
+from collections import deque
+from std_msgs.msg import Bool,Float64MultiArray
+
+class Trajectory_smooter():
+    def __init__(self,poly_degree=2, n_actions=5,dt=0.15):
+        self.poly_degree = poly_degree
+        self.n_actions = n_actions
+        self.dt=dt
+        self.reset()
+        
+    def reset(self):
+        self.previous_time=self.n_actions*self.dt
+        n = self.n_actions
+        new_actions  = [[t*self.dt,0,0] for t in range(n)]
+        self.last_actions = deque(new_actions,maxlen=n)
+
+        
+
+    def get_cmd(self,time):
+        dt = time - self.previous_time
+        ts_cmd = self.fit_polynomial(dt)
+
+        self.previous_time=time
+        a = self.last_actions[-1]
+        return a[1:]
+
+    def fit_polynomial(self,dt):
+        actions = np.array(self.last_actions)
+        timesteps = actions[:,0]
+        next_time = timesteps[-1]+dt 
+        
+        v_cmds = actions[:,1]
+        w_v = np.polyfit(timesteps, v_cmds, self.poly_degree)
+        v_poly = np.poly1d(w_v)
+        new_v_cmd = v_poly(next_time)
+
+        om_cmds = actions[:,2]
+        w_om = np.polyfit(timesteps, om_cmds, self.poly_degree)
+        om_poly=np.poly1d(w_om)
+        new_om_cmd = om_poly(next_time)
+
+        return [new_v_cmd,new_om_cmd]
+
+    def store_action(self,time,action):
+        #time = rospy.get_time()
+        #action = twist_to_act(vel_cmd)
+        v = action[0]
+        om = action[1]
+        self.last_actions.append([time,v,om])
+
+        #normalize actions
+        min_time = self.last_actions[0][0]
+        for i in range(self.n_actions): self.last_actions[i][0]=self.last_actions[i][0]-min_time
+        #print('User action stored : ',action)
