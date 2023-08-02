@@ -11,13 +11,18 @@ import os
 import matplotlib.pyplot as plt
 import pickle
 
-def plot(goal,obs_list,robot,dt):
+def plot(goal,obs_list,cp_list,robot,dt):
     plt.clf()
 
     fig = plt.gcf()
     ax = plt.gca()
     for obs in obs_list:
         ax.plot(*obs.xy,'b-',linewidth=1)
+    try:
+        for cp in cp_list:
+            ax.scatter(*cp,color='red')
+    except:
+        pass
     ax.scatter(*goal,color='green')
     plt.axis('equal')
     robot, = ax.plot(*robot.exterior.xy,color='red',linewidth=1)
@@ -32,8 +37,8 @@ def check_time(init_t,section):
     return t
 
 
-def display_results(step,agent,result,reward,loss=0,duration=0,train=False):
-    print('\nRESULTS:')
+def display_results(step,agent,result,reward,loss=0,duration=0,model='',train=False):
+    print(f'\nRESULTS ({model}):')
     print(f' - Result: {result}')
     print(f' - Steps: {step}')
     print(f' - Reward: {reward}')

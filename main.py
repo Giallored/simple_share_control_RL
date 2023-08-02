@@ -112,28 +112,17 @@ def train(agent,env,args,verbose=True):
         train_plot.plot_and_save()
 
         display_results(step,agent,result,episode_reward,loss, time.time()-start,train=True)
-        #dir = os.path.join(model_dir,'epoch_'+str(epoch))
-        #os.makedirs(dir, exist_ok=True)
-        #agent.save_model(dir)
 
         if epoch>10:
-            print('EVALUATION TIME')
-            score_model = eval(agent,env,n_episodes=2,mode='eval',
-                               shuffle=shuffle,show=False,verbose=False,map=[0,1])
-            score = mean(score_model)
-            print('SCORE: ', score)
-            if score>best_score:
-                dir = os.path.join(model_dir,'score_'+str(int(score)))
-                os.makedirs(dir, exist_ok=True)
-                agent.save_model(dir)
-            
+            score,best_score= cross_validation(agent,env,model_dir,best_score,times=5)
             agent.scheduler_step(score)
         epoch+=1
 
 
-def eval(agent,env,n_episodes=1, map = None,mode='classic',shuffle=True, show=True,verbose=True):
+def eval(agent,env, map = None,mode='classic',shuffle=True, show=True,verbose=True):
     score = []
     agent.is_training=False
+    n_episodes = len(map)
     for ep in range(n_episodes):
         if verbose:print('-'*5 + ' EVALUATION '+str(ep)+'-'*5)#+'\n'*6)
         step = 0
@@ -175,7 +164,7 @@ def eval(agent,env,n_episodes=1, map = None,mode='classic',shuffle=True, show=Tr
             new_state = env.get_state(new_observation,last_alpha)
             
 
-            if show:plot(env.goal,env.obs_mesh,env.robot.mesh,env.dt)
+            if show:plot(env.goal,env.obs_mesh,env.check_points,env.robot.mesh,env.dt)
 
             if step>=args.max_episode_length:
                 done=True
@@ -198,6 +187,18 @@ def eval(agent,env,n_episodes=1, map = None,mode='classic',shuffle=True, show=Tr
     return score
 
 
+def cross_validation(agent,env,dir,score2beat,times=5):
+    print('VALIDATION')
+    score_model = eval(agent,env,map=[None]*times,mode='eval',
+                        shuffle=True,show=False,verbose=False)
+    score = mean(score_model)
+    print('SCORE: ', score)
+    if score>score2beat:
+        dir = os.path.join(model_dir,'score_'+str(int(score)))
+        os.makedirs(dir, exist_ok=True)
+        agent.save_model(dir)
+    return score,score2beat
+    
 
 
 
@@ -209,7 +210,7 @@ if __name__ == '__main__':
     parser.add_argument('--model', default='', type=str, help='support option: train/eval')
 
     parser.add_argument('--env', default='static_DDDQN', type=str, help='open-ai gym environment')
-    parser.add_argument('--n_obs', default=10, type=str, help='number of obstacles in the map')
+    parser.add_argument('--n_obs', default=5, type=str, help='number of obstacles in the map')
 
     parser.add_argument('--hidden1', default=128, type=int, help='hidden num of first fully connect layer')
     parser.add_argument('--hidden2', default=128, type=int, help='hidden num of second fully connect layer')
@@ -225,7 +226,6 @@ if __name__ == '__main__':
     parser.add_argument('--output_weight', default='weights', type=str, help='folder to save the weigths')
     parser.add_argument('--output_plot', default='plots', type=str, help='folder to save the plots')
     parser.add_argument('--parent_dir', default='/home/adriano/Desktop/RL_simulated_unicycle/', type=str, help='')
-
     parser.add_argument('--init_w', default=0.003, type=float, help='') 
     parser.add_argument('--max_train_iter', default=200000, type=int, help='train iters each timestep')
     parser.add_argument('--epsilon', default=1.0, type=float, help='linear decay of exploration policy')
@@ -237,22 +237,37 @@ if __name__ == '__main__':
     parser.add_argument('--random_warmup', default=True, type=int, help='')
 
     args = parser.parse_args()
+    args.parent_dir = os.getcwd() 
 
-    #args.fixed_pos = [[[0.1,1,0.2]],[[-0.1,1,0.2]]]
+    #args.fixed_pos = [[[0.1,1]],[[-0.1,1]]]
 
-    #args.fixed_pos  = [[[0,1,0.2]]]
-    #args.fixed_pos = []
-    #for i in range(2,5):
-    #    c = i*0.05
-    #    args.fixed_pos.append([[c,1,0.2]])
-    #    args.fixed_pos.append([[-c,1,0.2]])
-    #    args.fixed_pos.append([[c-0.4,1,0.2],[c+0.4,1,0.2]])
-    #    args.fixed_pos.append([[-c-0.4,1,0.2],[-c+0.4,1,0.2]])
+    #args.fixed_pos  = [[[0,1]]]
+    
 
-    args.fixed_pos =[
-        [[0.3,0.75,0.2],[-0.5,1.5,0.2]],
-        [[0.5,1.5,0.2],[-0.3,0.75,0.2]]
-    ]
+    args.fixed_pos = []
+    args.check_points = []
+
+    for i in range(0,4):
+        c = i*0.1
+        #args.fixed_pos.append([[c,1]])
+        #args.fixed_pos.append([[-c,1]])
+        args.fixed_pos.append([[c-0.5,1],[c+0.5,1]])
+        args.fixed_pos.append([[-c-0.5,1],[-c+0.5,1]])
+    args.fixed_pos.append([[0.3,0.75],[-0.5,1.5]])
+    args.fixed_pos.append([[0.5,1.5],[-0.3,0.75]])
+
+
+    for x in args.fixed_pos:
+        a,b = x
+        c = [(a[0]+b[0])/2,(a[1]+b[1])/2]
+        args.check_points.append([c])
+
+
+    #BEST RESULTS
+    #args.fixed_pos =[
+    #    [[0.3,0.75],[-0.5,1.5]],
+    #    [[0.5,1.5],[-0.3,0.75]]
+    #]
 
 
     #get folders
@@ -298,4 +313,4 @@ if __name__ == '__main__':
         train(agent,env,args,verbose=True)
     else:
         print(args.mode)
-        score = eval(agent,env,n_episodes=2,mode=args.mode,shuffle=True,show=True,map=[0,1])
+        score = eval(agent,env,mode=args.mode,shuffle=True,show=True,map = [None]*5)

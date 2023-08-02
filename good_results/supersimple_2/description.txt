@@ -1,0 +1,70 @@
+#environment
+args.fixed_pos = []
+    for i in range(0,4):
+        c = i*0.1
+        args.fixed_pos.append([[c-0.5,1],[c+0.5,1]])
+        args.fixed_pos.append([[-c-0.5,1],[-c+0.5,1]])
+    args.fixed_pos.append([[0.3,0.75],[-0.5,1.5]])
+    args.fixed_pos.append([[0.5,1.5],[-0.3,0.75]])
+
+#actions
+vals = np.linspace(0.0,1.0,5)
+primitives = [(x,y,z) for x in vals for y in vals for z in vals if sum((x,y,z))==1.0]
+
+
+#collision avoidance
+def __init__(self, delta=0.7,K_lin=2.0,K_ang=5.0,k_r=50.0):
+    self.th_dist=0.7   #distance threshold
+    self.K_lin= 2.0
+    self.K_ang= 5.0
+    self.k_rr = 50.0
+    self.k_rt= 5.0
+    self.d_th = 0.2 # smallest distance
+    self.gamma = 2
+    self.max_v = 0.8    
+    self.min_v = -0.8
+    self.max_om = 1.0
+    self.min_om = -1.0
+
+def get_cmd(self,X_obs,dist,theta):
+    X_obs = np.array(X_obs)
+    if X_obs[0] ==None:
+        return [0.0,0.0],[0.0,0.0]
+    theta =clamp_angle(theta) 
+    R = np.array([[0,1],[-1,0]])
+    dU = self.dU_rt(dist)
+    F_r = dU*X_obs
+
+    #Rotational component
+    dtheta = np.arctan2(*F_r)
+    dtheta = clamp_angle(dtheta)* np.sign(theta)
+    v_cmd = self.K_lin*(theta/np.pi)**2
+    v_cmd =  np.clip(v_cmd,self.min_v,self.max_v)
+    om_cmd = np.clip(-self.K_ang*(dtheta) ,self.min_om,self.max_om)
+    cmd_r = [v_cmd,om_cmd]
+
+    #translational component
+    #F_t = dU*X_obs
+    F_t = F_r @ R 
+    dtheta_d = np.arctan2(*F_t)
+    dtheta_d = clamp_angle(dtheta_d)
+    om_cmd = np.clip(self.K_ang*(dtheta_d),self.min_om,self.max_om)
+    v_cmd = np.clip(self.K_lin*(theta/np.pi)**2,self.min_v,self.max_v)
+    cmd_t = [v_cmd,om_cmd]
+
+    return cmd_r, cmd_t
+    
+    def dU_rt(self,dist):
+        return self.k_rt * (1/dist*1/self.d_th) * 1/(dist**3) 
+
+
+
+
+
+#laser
+angle_min= -1.9198600053787231#-np.pi # *0.55 #
+angle_max=  1.9198600053787231 #np.pi # *0.55 #
+angle_increment= 0.01 # 0.005774015095084906
+range_min= 0.05000000074505806
+range_max= 2 #25.0
+       
