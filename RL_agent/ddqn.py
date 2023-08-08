@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 from torch.optim import Adam
 from collections import deque
-from RL_agent.model import DwelingQnet,SparseQnet
+from RL_agent.model import DwelingQnet,SparseQnet,Qnet
 from RL_agent.ERB import Prioritized_ERB
 from RL_agent.utils import *
 from copy import deepcopy
@@ -24,7 +24,7 @@ class DDQN(object):
         self.action_space = action_space
         print(f'There are {self.n_actions} primitive actions.')
 
-        self.scheduler_type = 'ReduceLROnPlateau'
+        self.scheduler_type = 'StepLR'
         self.n_frames = n_frames
         self.lr = args.rate
         
@@ -34,14 +34,22 @@ class DDQN(object):
             'hidden2':args.hidden2
                             }
         #self.network = SparseQnet(self.n_states, self.n_actions,**net_cfg)
-        #self.network = Qnet(self.n_states,self.n_frames, self.n_actions,**net_cfg)
-        self.network = DwelingQnet(self.n_states,self.n_frames, self.n_actions,**net_cfg)
+        self.network = Qnet(self.n_states,self.n_frames, self.n_actions,**net_cfg)
+        #self.network = DwelingQnet(self.n_states,self.n_frames, self.n_actions,**net_cfg)
         self.target_network = deepcopy(self.network)
-        self.optimizer  = Adam(self.network.parameters(), self.lr)
+
+        _optimizer_kwargs = {
+            "lr": self.lr,
+            "betas":(0.9, 0.999),
+            "eps": 1e-08,
+            "weight_decay": 0,
+            "amsgrad": False,
+        }
+        self.optimizer  = Adam(self.network.parameters(), **_optimizer_kwargs)
         self.loss= nn.MSELoss()
 
         if  self.scheduler_type == 'StepLR':
-            self.lr_scheduler = StepLR(self.optimizer, step_size=5000, gamma=0.9)
+            self.lr_scheduler = StepLR(self.optimizer, step_size=1, gamma=0.9)
         elif self.scheduler_type == 'ReduceLROnPlateau':
             self.lr_scheduler = ReduceLROnPlateau(self.optimizer, mode='min', factor=0.9, patience=3, threshold=5,
                                threshold_mode='rel', cooldown=0, min_lr=0.00001, eps=1e-08)
@@ -52,7 +60,7 @@ class DDQN(object):
             self.lr_coeff=1.0
             self.loss_window = deque([self.last_lambda_mean]*self.window_len,maxlen=self.window_len)
             self.lr_scheduler = LambdaLR(optimizer=self.optimizer, lr_lambda=self.lambda_rule)
-        
+            
 
         hard_update(self.target_network, self.network) # Make sure target is with the same weight
         
@@ -62,20 +70,26 @@ class DDQN(object):
                                               o_shape = (self.n_frames,383),
                                               s_shape = (self.n_states,), 
                                               a_shape=(1,),
-                                              alpha=0.8) 
+                                              alpha=0.5) 
         # Hyper-parameterssigma
         self.batch_size = args.bsize
         self.gamma = args.discount
         self.tau = args.tau
         self.epsilon_decay=args.epsilon_decay
         self.epsilon = args.epsilon
-        self.epsilon_min=0.1
+        self.epsilon_min=0.01
         self.is_training = is_training
         self.policy_freq=2 #delayed actor update
 
+        self.epsilon_decay_schedule =lambda n: power_decay_schedule(n, 
+                                                    eps_decay = self.epsilon_decay,
+                                                    eps_decay_min=self.epsilon_min)
 
+        print(f'Hyper parmaeters are:\n - epsilon = {self.epsilon}\n - epsilon decay = {self.epsilon_decay}\n - learning rate = {self.lr}')
+        
         self.train_iter = 0
         self.sync_frequency=200
+        self.update_frequency = 4
         self.max_iter = args.max_train_iter
 
         #initializations
@@ -86,10 +100,6 @@ class DDQN(object):
         self.use_cuda = torch.cuda.is_available()
         #self.use_cuda = False
         if self.use_cuda: self.cuda()
-    
-    def update_hp(self):
-        if self.epsilon>self.epsilon_min:
-            self.epsilon*=self.epsilon_decay
 
     def set_hp(self,hp):
         self.epsilon = hp.eps
@@ -99,6 +109,7 @@ class DDQN(object):
         print('Epsilon set to ',hp.eps)
 
 
+
     def reset(self,init_state,init_act):
         init_obs,init_cmd = init_state
 
@@ -106,7 +117,6 @@ class DDQN(object):
         self.sVars = init_cmd
         self.a_t=np.array(init_act)
         self.episode_loss=0.
-        self.update_hp()
 
     def e_greedy(self):
         p = np.random.random()
@@ -119,13 +129,15 @@ class DDQN(object):
         if self.scheduler_type=='ReduceLROnPlateau':
             return self.lr_scheduler._last_lr[0]
         else:
-            return self.lr_scheduler.get_last_lr[0] 
+            return self.lr_scheduler.get_last_lr()[0]
 
     def random_action(self):
         action = random.sample(self.action_space,1)[0] #np.random.choice(self.action_space)
         self.a_t = action
         return action
     
+
+
     def select_action(self, s_t):
         obs_t,svar_t=s_t
         
@@ -153,10 +165,11 @@ class DDQN(object):
         if self.is_training and p < self.epsilon:   #exploration
             action = self.random_action()
         else:                                       #exploitation
-            
             action = a_opt
+        self.epsilon = self.epsilon_decay_schedule(n=self.train_iter)
         
         self.a_t = action
+
 
         return action,a_opt
     
@@ -193,23 +206,23 @@ class DDQN(object):
         t_tsr = to_tensor(t_b.astype(np.float),use_cuda=self.use_cuda)#.squeeze(1)
 
         # compute Q for the current state
-        q = self.network(s_tsr)
-        q = torch.gather(q, 1, a_tsr.long()).squeeze(1)
+        q_val= self.network(s_tsr)
 
+        q_val = torch.gather(q_val, 1, a_tsr.long()).squeeze(1)
+
+        
         # compute target Q  
         with torch.no_grad():
-        #    next_q = self.target_network.forward(next_s_tsr)
-        #    next_q_max = torch.max(next_q, dim=1).values
-        #    target_q = r_tsr + (1 - t_tsr)*self.gamma*next_q_max
-            q_next = self.network.forward(next_s_tsr)
-            next_a_tsr = torch.argmax(q_next, dim=1).unsqueeze(-1) # (k)
+            next_q_val = self.network(next_s_tsr)
+            max_next_q_val = torch.max(next_q_val, 1)[1].unsqueeze(1)
+            next_q_target_val = self.target_network(next_s_tsr)
+            next_q_val = torch.gather(next_q_target_val,1, max_next_q_val).squeeze(1)
 
-        q_next = self.target_network.forward(next_s_tsr)
-        next_q_max = torch.gather(q_next, 1, next_a_tsr.long()).squeeze(1)
-        target_q = r_tsr + (1 - t_tsr)*self.gamma*next_q_max
+        target_q_val = r_tsr + (1 - t_tsr)*self.gamma*next_q_val
+
 
         # loss computation
-        loss = self.loss(q,target_q)
+        loss = self.loss(q_val,target_q_val)
 
         # save loss
         self.episode_loss+=loss.item()
@@ -221,7 +234,7 @@ class DDQN(object):
         loss *= weight
 
         # compute the TD error and update the buffer
-        TD_error = abs(target_q.detach() - q.detach()).cpu()
+        TD_error = abs(target_q_val.detach() - q_val.detach()).cpu()
         TD_error = TD_error.numpy()
         
         #self.buffer.update_data(abs(TD_error), indices)
@@ -230,13 +243,14 @@ class DDQN(object):
         return loss
 
     def update_policy(self):
-        batch = self.buffer.sample(self.batch_size)
-        loss = self.compute_loss(batch)
-        self.network.zero_grad()
-        loss.backward()
-        self.optimizer.step()
-        
-        if not self.scheduler_type == 'ReduceLROnPlateau': self.scheduler_step(loss.item())
+        if self.train_iter % self.update_frequency == 0:
+            batch = self.buffer.sample(self.batch_size)
+            loss = self.compute_loss(batch)
+            self.network.zero_grad()
+            loss.backward()
+            self.optimizer.step()
+            
+            #if not self.scheduler_type == 'ReduceLROnPlateau': self.scheduler_step(loss.item())
 
         if self.train_iter%self.sync_frequency:
             soft_update(self.target_network, self.network, self.tau)
@@ -310,3 +324,9 @@ class DDQN(object):
         return self.lr_coeff
             
 
+    def reset_memory(self,size):
+        self.buffer = PrioritizedReplayBuffer(capacity = size,
+                                              o_shape = (self.n_frames,383),
+                                              s_shape = (self.n_states,), 
+                                              a_shape=(1,),
+                                              alpha=0.8) 

@@ -9,12 +9,15 @@ class User():
     def __init__(self):
             
         #primitives
-        self.primitive_v = 0.8
-        self.primitive_om = 1.0
-        self.stop_cmd = [0.0,0.0]
+        self.straight = 1.0
+        self.turn_L = 1.0
+        self.turn_R = -1.0
+        self.primitives = [[ self.straight,self.turn_L],[ self.straight,self.turn_R],[ self.straight,0.0],[0.0,self.turn_L],[0.0,self.turn_R]]
+        self.stop_cmd = [0.0,1.0,-1.0]
+        self.p_th = 0.1
 
         #threshold on bearing to turn 
-        self.theta_th = np.pi/4
+        self.theta_th = np.pi/9
 
         #paramss
         self.max_v = 0.8    
@@ -28,7 +31,8 @@ class User():
 
     def get_cmd(self,pose,goal):
         dist,theta = self.get_goal_dist(pose,goal)
-        cmd = self.continue_act(dist,theta)
+        #cmd = self.continue_act(dist,theta)
+        cmd = self.discrete_act(dist,theta)
         return cmd
 
     def get_goal_dist(self,pose,goal):
@@ -49,6 +53,29 @@ class User():
         om = np.clip(self.k_a*theta+noise[1],self.min_om,self.max_om)
         cmd = [v,om]
         return cmd
+    
+    def discrete_act(self,dist,theta):
+        p = random.uniform(0, 1)
+        if p<self.p_th:
+            return random.choice(self.primitives)
+        else:
+            if dist >0 and abs(theta)<self.theta_th:
+                v = self.straight
+            else:
+                v=0
+            
+            if theta>self.theta_th:
+                om = self.turn_L
+            elif theta<-self.theta_th:
+                om = self.turn_R
+            else:
+                om=0.0
+            return [v,om]
+
+            
+
+
+
 
 
 if __name__ == '__main__':

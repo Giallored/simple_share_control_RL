@@ -44,7 +44,8 @@ def display_results(step,agent,result,reward,loss=0,duration=0,model='',train=Fa
     print(f' - Reward: {reward}')
     
     if train:
-        print(f' - Epsilon: {round(agent.epsilon,3)}')
+        print(f' - epsilon: {round(agent.epsilon,3)}')
+        print(f' - beta: {round(agent.buffer.beta,3)}')
         print(f' - Mem. Capacity: {round(agent.buffer.get_capacity()*100,1)}%')
         print(f' - Mean loss: ',round(loss,3))
         print(f' - Duration: {round(duration,2)} sec')
@@ -58,6 +59,10 @@ def get_classic_alpha(danger_lev:int):
                 3:((0.5,0.5,0.0),'CA'),
                 4:((0.25,0.75,0.0),'CA'),
                 5:((0.0,1.0,0.0),'CA')}
+    if danger_lev == 5:
+        return (0.0,1.0,0.0)
+    else:
+        return  (1,0,0)
     a,tag = primitives[danger_lev]
     return a
 
@@ -216,8 +221,7 @@ class Plot():
 
 def clamp_angle(x):
     x = (x+2*np.pi)%(2*np.pi)
-
-    if x > np.pi:
+    if x > np.pi+0.00001:
         return x -2*np.pi 
     else:
         return x
@@ -227,6 +231,20 @@ def clamp_angle(x):
     #while x<-np.pi:
     #    x+=2*np.pi
     #return x
+
+def get_checkpoints(obstacles,goal):
+    check_points = []
+    for a in obstacles:
+        for b in obstacles:
+            dist = np.linalg.norm(np.subtract(a,b))
+            if dist <= 0.9 and not a == b:
+                c = np.array([(a[0]+b[0])/2,(a[1]+b[1])/2])
+                g = np.array(goal)
+                o = np.array([0,0])
+                is_elegible  =(np.linalg.norm(g-c) + np.linalg.norm(c))/np.linalg.norm(g)<=1.05
+                if is_elegible:
+                    check_points.append(c)
+    return check_points
 
 
 def write_console(header,alpha,a_opt,danger,lr,dt):

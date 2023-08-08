@@ -2,6 +2,7 @@ import numpy as np
 from shapely.geometry import LineString
 from shapely.geometry import Point
 from shapely import Polygon
+from copy import deepcopy
 
 
 class Robot():
@@ -12,11 +13,11 @@ class Robot():
         self.alpha = np.pi-np.arctan2(w,h)
         self.state = np.array(x0)
         self.dstate = np.zeros(3)
-        self.mesh = self.get_polygon()
+        self.mesh = self.get_polygon(self.state)
         
 
-    def get_polygon(self):
-        x,y,th = self.state
+    def get_polygon(self,state):
+        x,y,th = state
         w,h,l = self.sizes
         a = th+self.alpha
         b = th-self.alpha
@@ -32,8 +33,19 @@ class Robot():
         self.dstate[0] =v*np.cos(self.state[2])
         self.dstate[1] =v*np.sin(self.state[2])
 
-        self.state = self.state + self.dstate * dt
-        self.mesh = self.get_polygon()
+        self.state += self.dstate * dt
+        self.mesh = self.get_polygon(self.state)
+
+    def move_simulate(self,v,om,dt):
+        dstate = deepcopy(self.dstate)
+        state = deepcopy(self.state)
+        dstate[2] = om
+        dstate[0] =v*np.cos(self.state[2])
+        dstate[1] =v*np.sin(self.state[2])
+        state += self.dstate * dt
+        mesh = self.get_polygon(state)
+        return dstate,state,mesh
+
 
 
 

@@ -37,7 +37,9 @@ class Collision_avoider():
         if X_obs[0] ==None:
             return [0.0,0.0],[0.0,0.0]
         theta =clamp_angle(theta) 
-        R = np.array([[0,1],[-1,0]])
+        sign = - np.sign(theta)
+        if sign==0.0: sign = 1
+        R = np.array([[0,1],[-1,0]]) *sign
         dU = self.dU_rt(dist)
         F_r = dU*X_obs
         #rotational component
@@ -53,14 +55,16 @@ class Collision_avoider():
         #v_cmd = np.clip(self.K_lin*(theta/np.pi)**2,self.min_v,self.max_v)
         #cmd_r = [v_cmd,om_cmd]
 
-
         #Rotational component
         dtheta = np.arctan2(*F_r)
-        dtheta = clamp_angle(dtheta)* np.sign(theta)
+        dtheta = clamp_angle(dtheta)*sign
+
         v_cmd = self.K_lin*(theta/np.pi)**2
         v_cmd =  np.clip(v_cmd,self.min_v,self.max_v)
         om_cmd = np.clip(-self.K_ang*(dtheta) ,self.min_om,self.max_om)
         cmd_r = [v_cmd,om_cmd]
+        
+
 
         #translational component
         #F_t = dU*X_obs
@@ -71,10 +75,11 @@ class Collision_avoider():
         v_cmd = np.clip(self.K_lin*(theta/np.pi)**2,self.min_v,self.max_v)
         cmd_t = [v_cmd,om_cmd]
 
+
         return cmd_r, cmd_t
     
     def dU_rt(self,dist):
-        return self.k_rt * (1/dist*1/self.d_th) * 1/(dist**3) 
+        return self.k_rt * (1/dist - 1/self.d_th) * 1/(dist**3) 
 
     
     def get_cls_point(self,point_cloud):

@@ -2,9 +2,19 @@
 import os
 import torch
 from torch.autograd import Variable
+import numpy as np
 
 #USE_CUDA = False#torch.cuda.is_available()
 #FLOAT = torch.cuda.FloatTensor if USE_CUDA else torch.FloatTensor
+
+def power_decay_schedule(n: int,
+                    eps_decay: float,
+                    eps_decay_min: float) -> float:
+    return max(eps_decay**n, eps_decay_min)
+
+def exponential_annealing_schedule(n, rate):
+    return 1 - np.exp(-rate * n)
+
 
 def to_numpy(var,use_cuda = False):
     return var.cpu().data.numpy() if use_cuda else var.data.numpy()

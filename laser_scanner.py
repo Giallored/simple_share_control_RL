@@ -35,7 +35,7 @@ class LaserScanner():
             line = LineString([Point(*xy), Point(*xy_i)])
             #get the obstacles you are able to see
             for o in self.obstacles:
-                points = o.intersection(line)#circle.intersection(line) #list of point in the WF
+                points = o.intersection(line)
                 if not points.is_empty:
                     try:
                         point_list = list(points.geoms)
@@ -46,8 +46,7 @@ class LaserScanner():
                     except:
                         p_i = points
                         range_i = centre.distance(p_i)
-            ranges.append(range_i)        
-            #ranges[i]=range_i 
+            ranges.append(range_i)      
         mask = self.get_mask(ranges,3)
 
         return ranges,mask

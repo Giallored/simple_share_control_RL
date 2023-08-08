@@ -3,6 +3,7 @@ import numpy as np
 import random
 from functools import reduce
 import operator
+from RL_agent.utils import exponential_annealing_schedule
 
 
 class UniformReplayBuffer():
@@ -71,7 +72,7 @@ class UniformReplayBuffer():
         return random.choices(population=range(high), k=n), None     
 
     def get_capacity(self):
-        if self.idx < self.capacity:
+        if self.cnt < self.capacity:
             return self.idx / self.capacity
         else:
             return 1.0
@@ -95,7 +96,7 @@ class UniformReplayBuffer():
 
 class PrioritizedReplayBuffer(UniformReplayBuffer):
 
-    def __init__(self, capacity: int, o_shape:tuple,s_shape: tuple, a_shape=(1, ), alpha=0.6, beta_0=0.4, beta_inc=1.001):
+    def __init__(self, capacity: int, o_shape:tuple,s_shape: tuple, a_shape=(1, ), alpha=0.6, beta_0= 1e-2, beta_inc=1.001):
         super().__init__(capacity,o_shape, s_shape, a_shape)
         if math.ceil(math.log2(capacity)) != math.floor(math.log2(capacity)):
             capacity = 2**math.ceil(math.log2(capacity))
@@ -104,10 +105,13 @@ class PrioritizedReplayBuffer(UniformReplayBuffer):
         # store the priorities in a tree
         self.priorities = SumTree(capacity)
         self.max_priority = 1.0
+        self.cnt=1
 
         self.alpha = alpha
         self.beta = beta_0
         self.beta_inc = beta_inc
+        self.beta_aneling =lambda n: exponential_annealing_schedule(n,rate=1e-3)
+
 
     def sample_idxes_weights(self, n):
         high = self.size()
@@ -118,8 +122,8 @@ class PrioritizedReplayBuffer(UniformReplayBuffer):
 
         w /= w.max()
         if self.beta < 1: # beta annealing
-            self.beta*= self.beta_inc 
-
+        #    self.beta*= self.beta_inc 
+             self.beta = self.beta_aneling(self.cnt)
         return idxes, w
 
     def store(self, o: np.ndarray, 
@@ -130,6 +134,7 @@ class PrioritizedReplayBuffer(UniformReplayBuffer):
                     op: np.ndarray, 
                     sp: np.ndarray):
         super().store(o,s,a,r,d,op,sp)
+        self.cnt+=1
         self.priorities.set_priority(self.idx,self.max_priority)
 
     def update_priorities(self, idxes, td_errors, eps=1e-6):
@@ -141,6 +146,10 @@ class PrioritizedReplayBuffer(UniformReplayBuffer):
 
         for i in range(len(idxes)):
             self.priorities.set_priority(idxes[i],updated_priorities[i])
+    
+
+
+
 
 class SumTree():
     def __init__(self, n_bins):

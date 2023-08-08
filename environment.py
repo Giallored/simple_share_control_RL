@@ -9,38 +9,39 @@ from user_AI import User
 from laser_scanner import LaserScanner
 import matplotlib.pyplot as plt
 import time
-from utils import get_classic_alpha,check_time
-
-    
+from utils import *
+from maps import Maps
+from labirint_maps import LabirintMaps
+from copy import deepcopy
 
     
 class Environment():
 
-    def __init__(self,args,x0 = [0,0,np.pi/2]):
+    def __init__(self,args,x0 = [-1.5,0,np.pi/2]):
         
         self.agent_name=args.agent_name
         
         
         #dimentions
-        self.dt = 0.05
+        self.dt = 0.2
         self.n_obs = int(args.n_obs)
 
         self.map_size = (10,10)
         self.robot_size = (0.2,0.3)
-        #self.env_size = (1.0,1.4)
+        #self.env_size = (self.n_obs%3,1.4)
         self.obs_radius = 0.2
 
         #space environment
-        self.map_cols = self.map_rows = 3
-        self.fixed_pos = args.fixed_pos
-        self.cp_list = args.check_points
-       
+        self.cp_list = []
+        #self.maps = Maps(self.n_obs,(3,3))
+        self.maps = LabirintMaps()
         #print(f'There are {args.n_obs} obstacles in a grid of {len(self.grid)} ({len(ax_x)} x {len(ax_y)})')
 
         
         
         #initializations
         self.robot = Robot(size=self.robot_size, x0=x0)
+        self.init_state = x0
         self.scanner = LaserScanner()
         self.time = 0
         self.cur_cmd = [0.0,0.0]
@@ -55,25 +56,38 @@ class Environment():
         #rewards
         self.R_cmd = 0 #-1
         self.R_end = 1000
-        self.R_goal = 5 #-20 #-1
+        self.R_goal = 5 #-1
         self.R_col = -500 # -100
         self.R_alpha = 1 #-1
-        self.R_safe= -1 #5
-        self.R_cp = 10
+        self.R_safe= -1
+        self.R_cp = 100
 
         self.reset()    #sets the goal and obs positions at random
 
 
 
-    def reset(self,mode='train',shuffle=True,map=None,random = True):
+    def reset(self,shuffle=True,map=None,random = True):
         self.time = 0
         
+        #if shuffle:
+        #    self.obstacles,self.check_points,self.end_goal = self.maps.get_map(map)
+        #    self.check_points.append(self.end_goal )
+        #    self.goal = self.check_points.pop(0)
         if shuffle:
-                self.obstacles,self.goal,self.check_points = self.generate_map(random)
-            
-        self.robot.state = [0,0,np.pi/2]
+            self.map = self.maps.sample_map()
+            walls = self.map.walls
+            obs = self.map.obstacles
+            self.obs_mesh = [*walls,*obs]
+            self.check_points = deepcopy(self.map.check_points)
+            self.end_goal = self.map.goal
+
+            self.check_points.append(self.end_goal )
+            self.goal = self.check_points.pop(0)
+
+        
+        self.robot.state = self.init_state
         self.last_gDist =  np.linalg.norm(np.subtract(self.goal,self.robot.state[0:2]))
-        self.obs_mesh = self.get_obs_mesh(self.obstacles)
+        #self.obs_mesh = self.get_obs_mesh(self.obstacles)
         self.scanner.reset(self.obs_mesh)
         self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
         self.cls_point,self.cls_point_dist,self.cls_point_bear = self.scanner.ranges2clsPoint(self.ls_ranges)
@@ -81,11 +95,11 @@ class Environment():
         self.is_coll = False
         self.is_goal = False
         self.is_cp =False
-        self.cp_1 =True
 
         self.cur_cmd = [0.0,0.0]
         self.cur_cmds = [(0.0,0.0),(0.0,0.0),(0.0,0.0)]
         return observation
+    
         
     def step(self,cmd):
         v,om=cmd
@@ -102,8 +116,6 @@ class Environment():
     
     def update(self):
         self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
-       
-
         self.cls_point,self.cls_point_dist,self.cls_point_bear = self.scanner.ranges2clsPoint(self.ls_ranges)
         if self.agent_name == 'SparseQnet':
             observation = np.hstack([self.ls_ranges,mask])
@@ -124,19 +136,7 @@ class Environment():
         self.cur_cmds = (usr_cmd,ca_cmd1,ca_cmd2)
         return self.cur_cmds
     
-    def get_checkpoints(self,obstacles):
-        check_points = []
-        for a in obstacles:
-            for b in obstacles:
-                dist = np.linalg.norm(np.subtract(a,b))
-                if dist <= 0.9 and not a == b:
-                    c = np.array([(a[0]+b[0])/2,(a[1]+b[1])/2])
-                    g = np.array(self.goal)
-                    o = np.array([0,0])
-                    is_elegible  =(np.linalg.norm(g-c) + np.linalg.norm(c))/np.linalg.norm(g)<=1.2
-                    if is_elegible:
-                        check_points.append(c)
-        return check_points
+
 
 
 
@@ -148,7 +148,6 @@ class Environment():
             self.danger = 1
         else:
             self.danger =  int((0.5-dist+0.1)//0.1+1)
-
 
         if dist<1.0 and dist>=0.5:
             if abs(theta)<theta_th:
@@ -166,6 +165,7 @@ class Environment():
     def update_alpha(self,current,target):
         self.cur_alpha = current
         self.target_alpha = target
+
     def get_state(self,observation,prev_alpha):
         state_vars = np.hstack([self.cur_cmds[0],
                                 self.cur_cmds[1],
@@ -176,15 +176,20 @@ class Environment():
     def check(self):
         self.is_coll = False
         self.is_goal = False
+        self.is_cp = False
         r = self.robot.mesh
         for obs in self.obs_mesh:
             if not r.intersection(obs).is_empty:
                 self.is_coll = True
             if np.sqrt((self.robot.state[0]-self.goal[0])**2+(self.robot.state[1]-self.goal[1])**2)<self.goal_toll:
-                self.is_goal = True
-        for cp in self.cp_list:
-            if not r.intersection(Point(cp)).is_empty:
-                self.is_cp = True
+                if self.check_points:
+                    self.is_cp = True
+                    self.goal = self.check_points.pop(0)
+                else:
+                    self.is_goal =True
+                
+
+
     
     def plot_xy(self):
         robot, = self.ax.plot(*self.robot.mesh.exterior.xy,linewidth=1)
@@ -207,13 +212,10 @@ class Environment():
         e = self.cls_point_dist
         if self.is_coll:
             r_safety = self.R_col
-        elif e<0.3:
+        elif e<0.5:
             r_safety=self.R_safe/e
         else:
             r_safety=0
-
-        # command oriented 
-        r_cmd = self.R_cmd*np.linalg.norm(np.subtract(self.cur_cmd,self.cur_cmds[0]))
 
         # Goal oriented
         g_dir = np.subtract(self.goal,self.robot.state[0:2])
@@ -224,40 +226,24 @@ class Environment():
         g_bear = np.arctan2(g_dir[1],g_dir[0])-self.robot.state[2]
         if self.is_goal:
             r_goal = self.R_end
+        elif self.is_cp:
+            r_goal = self.R_cp
         else:
             r_goal=self.R_goal*delta_gDist*(np.pi - abs(g_bear))
-        
-        if self.is_cp and self.cp_1:
-            r_cp = self.R_cp
-            self.cp_1 = False
-        else:
-            r_cp = 0
 
-        r_alpha  = self.R_alpha * self.cur_alpha[0]
+        r_alpha  =  self.R_alpha * self.cur_alpha[0]
 
-        self.cur_rewards = [r_safety,r_alpha,r_goal,r_cmd,r_cp]
-        #print(f'rewards:\n - safe = {r_safety},\n - alpha = {r_alpha},\n - goal = {r_goal},\n - r_cp = {r_cp}')
+        self.cur_rewards = [r_safety,r_alpha,r_goal]
+        #print(f'rewards:\n - safe = {r_safety},\n - alpha = {r_alpha},\n - goal = {r_goal}')#,\n - r_cp = {r_cp}')
         reward = sum(self.cur_rewards)
         return reward
-    
-    
-    def generate_map(self,is_random=True):
-        if is_random:
-            obs_clear = random.uniform(0.6, 0.8)
-            x_ = self.map_cols*obs_clear/2
-            y_ = self.map_rows*obs_clear
-            ax_x = np.linspace(-x_,x_,self.map_rows)
-            ax_y = np.linspace(1.0,y_+1.0,self.map_rows)
-            grid = [[x,y] for x in ax_x for y in ax_y]# if np.linalg.norm([x,y])>=1.0]
-            goal_grid = [*[[x,y_+1.5] for x in ax_x]]
-            obstacles = random.sample(grid, self.n_obs)
-            goal = random.sample(goal_grid, 1)[0]
-            check_points = self.get_checkpoints(obstacles)
-        else:
-            index = random.randint(0,len(self.fixed_pos))
-            obstacles = self.fixed_pos[index]
-            check_points = self.cp_list[index]
-            goal = [0,2]
 
-        return obstacles,goal,check_points
+    def collision_forecast(self,v,om):
+        if self.danger ==5:
+            _,_,r_mesh = self.robot.move_simulate(v,om,self.dt)
+            for obs in self.obs_mesh:
+                if not r_mesh.intersection(obs).is_empty:
+                    return True
+        else:
+            return False
 
