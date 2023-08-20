@@ -26,7 +26,6 @@ class DDQN(object):
 
         self.scheduler_type = 'StepLR'
         self.n_frames = n_frames
-        self.lr = args.rate
         
         # Create Actor and Critic Network
         net_cfg = {
@@ -38,59 +37,69 @@ class DDQN(object):
         #self.network = DwelingQnet(self.n_states,self.n_frames, self.n_actions,**net_cfg)
         self.target_network = deepcopy(self.network)
 
-        _optimizer_kwargs = {
-            "lr": self.lr,
-            "betas":(0.9, 0.999),
-            "eps": 1e-08,
-            "weight_decay": 0,
-            "amsgrad": False,
-        }
-        self.optimizer  = Adam(self.network.parameters(), **_optimizer_kwargs)
-        self.loss= nn.MSELoss()
 
-        if  self.scheduler_type == 'StepLR':
-            self.lr_scheduler = StepLR(self.optimizer, step_size=1, gamma=0.9)
-        elif self.scheduler_type == 'ReduceLROnPlateau':
-            self.lr_scheduler = ReduceLROnPlateau(self.optimizer, mode='min', factor=0.9, patience=3, threshold=5,
-                               threshold_mode='rel', cooldown=0, min_lr=0.00001, eps=1e-08)
-            self.lr_scheduler.step(-1000)
-        elif self.scheduler_type == 'LambdaLR':
-            self.window_len = args.lambda_window
-            self.last_lambda_mean = 100000
-            self.lr_coeff=1.0
-            self.loss_window = deque([self.last_lambda_mean]*self.window_len,maxlen=self.window_len)
-            self.lr_scheduler = LambdaLR(optimizer=self.optimizer, lr_lambda=self.lambda_rule)
-            
+        
 
         hard_update(self.target_network, self.network) # Make sure target is with the same weight
         
-        #Create replay buffer
-        #self.buffer = Prioritized_ERB(self.n_frames,memory_size = args.rmsize)
-        self.buffer = PrioritizedReplayBuffer(capacity = args.rmsize,
-                                              o_shape = (self.n_frames,383),
-                                              s_shape = (self.n_states,), 
-                                              a_shape=(1,),
-                                              alpha=0.5) 
-        # Hyper-parameterssigma
-        self.batch_size = args.bsize
-        self.gamma = args.discount
-        self.tau = args.tau
-        self.epsilon_decay=args.epsilon_decay
-        self.epsilon = args.epsilon
-        self.epsilon_min=0.01
-        self.is_training = is_training
-        self.policy_freq=2 #delayed actor update
+        if is_training:
+            #Create replay buffer
+            #self.buffer = Prioritized_ERB(self.n_frames,memory_size = args.rmsize)
+            self.buffer = PrioritizedReplayBuffer(capacity = args.rmsize,
+                                                o_shape = (self.n_frames,383),
+                                                s_shape = (self.n_states,), 
+                                                a_shape=(1,),
+                                                alpha=0.5) 
+            # Hyper-parameterssigma
+            self.lr = args.rate
+            self.batch_size = args.bsize
+            self.gamma = args.discount
+            self.tau = args.tau
+            self.epsilon_decay=args.epsilon_decay
+            self.epsilon = args.epsilon
+            self.epsilon_min=0.01
+            self.is_training = is_training
+            self.policy_freq=2 #delayed actor update
+            self.train_iter = 0
+            self.max_iter = args.max_train_iter
 
-        self.epsilon_decay_schedule =lambda n: power_decay_schedule(n, 
-                                                    eps_decay = self.epsilon_decay,
-                                                    eps_decay_min=self.epsilon_min)
+            self.sync_frequency=200
+            self.update_frequency = 4
 
-        print(f'Hyper parmaeters are:\n - epsilon = {self.epsilon}\n - epsilon decay = {self.epsilon_decay}\n - learning rate = {self.lr}')
+            #init optimizer
+
+            _optimizer_kwargs = {
+                "lr": self.lr,
+                "betas":(0.9, 0.999),
+                "eps": 1e-08,
+                "weight_decay": 0,
+                "amsgrad": False,
+            }
+
+            self.optimizer  = Adam(self.network.parameters(), **_optimizer_kwargs)
+            self.loss= nn.MSELoss()
+
+            if  self.scheduler_type == 'StepLR':
+                self.lr_scheduler = StepLR(self.optimizer, step_size=1, gamma=0.9)
+            elif self.scheduler_type == 'ReduceLROnPlateau':
+                self.lr_scheduler = ReduceLROnPlateau(self.optimizer, mode='min', factor=0.9, patience=3, threshold=5,
+                                threshold_mode='rel', cooldown=0, min_lr=0.00001, eps=1e-08)
+                self.lr_scheduler.step(-1000)
+            elif self.scheduler_type == 'LambdaLR':
+                self.window_len = args.lambda_window
+                self.last_lambda_mean = 100000
+                self.lr_coeff=1.0
+                self.loss_window = deque([self.last_lambda_mean]*self.window_len,maxlen=self.window_len)
+                self.lr_scheduler = LambdaLR(optimizer=self.optimizer, lr_lambda=self.lambda_rule)
+                
+
+            self.epsilon_decay_schedule =lambda n: power_decay_schedule(n, 
+                                                        eps_decay = self.epsilon_decay,
+                                                        eps_decay_min=self.epsilon_min)
+
+            print(f'Hyper parmaeters are:\n - epsilon = {self.epsilon}\n - epsilon decay = {self.epsilon_decay}\n - learning rate = {self.lr}')
         
-        self.train_iter = 0
-        self.sync_frequency=200
-        self.update_frequency = 4
-        self.max_iter = args.max_train_iter
+       
 
         #initializations
         self.a_t = (1.0,0.0,0.0) # Most recent action
@@ -166,7 +175,7 @@ class DDQN(object):
             action = self.random_action()
         else:                                       #exploitation
             action = a_opt
-        self.epsilon = self.epsilon_decay_schedule(n=self.train_iter)
+        if self.is_training: self.epsilon = self.epsilon_decay_schedule(n=self.train_iter)
         
         self.a_t = action
 

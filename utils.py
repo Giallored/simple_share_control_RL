@@ -11,6 +11,11 @@ import os
 import matplotlib.pyplot as plt
 import pickle
 
+import cv2
+import os
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
 def plot(goal,obs_list,cp_list,robot,dt):
     plt.clf()
 
@@ -55,14 +60,14 @@ def display_results(step,agent,result,reward,loss=0,duration=0,model='',train=Fa
 
 def get_classic_alpha(danger_lev:int):
     primitives = {1:((1.0,0.0,0.0),'U'),
-                2:((0.75,0.25,0.0),'CA'),
-                3:((0.5,0.5,0.0),'CA'),
-                4:((0.25,0.75,0.0),'CA'),
-                5:((0.0,1.0,0.0),'CA')}
+                2:((0.75,0.125,0.125),'CA'),
+                3:((0.5,0.25,0.25),'CA'),
+                4:((0.25,0.365,0.365),'CA'),
+                5:((0.0,0.5,0.5),'CA')}
     if danger_lev == 5:
-        return (0.0,1.0,0.0)
+        return (0.0,1.0,0.0) #(0,0.5,0.5)
     else:
-        return  (1,0,0)
+        return  (1.0,0.0,0.0)
     a,tag = primitives[danger_lev]
     return a
 
@@ -302,5 +307,24 @@ def pc2img(pc,defi=2,height=300,width=400):
 
 
 
+def make_video(image_folder,vids_folder,name,dt=0.1):
 
+    video_name = name+'.mp4'
+    video_path = os.path.join(vids_folder,video_name)
 
+    img_list = sorted(os.listdir(image_folder))
+    images = [img for img in img_list if img.endswith(".png")]
+    frame = cv2.imread(os.path.join(image_folder, images[0]))
+    height, width, layers = frame.shape
+
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    video = cv2.VideoWriter(video_path, fourcc, 1/dt, (width,height))
+
+    for image in images: 
+        img = cv2.imread(os.path.join(image_folder, image))
+        cv2.imshow('image', img)
+        video.write(img)
+
+    video.release()
+
+    print('Video saved as: ',video_path)

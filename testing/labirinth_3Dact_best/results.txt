@@ -1,0 +1,23 @@
+PARAMS:
+ * seed = None (uses clock)
+ * 100 iterations
+ * max n. steps = 500
+ * 10% random action by the user
+
+RESULTS:
+ - Mean score =  883.7156973621943 (computed as not discounted reward)
+ - Mean steps =  135.26 (mean number of steps to end the map)
+ - usr control:
+    + Occurrence =  0.31  (n. times alpha[0] != 0)
+    + Mean =  0.31
+    + Variance =  0.21
+ - ca_r control:
+    + Occurrence =  0.53
+    + Mean =  0.53
+    + Variance =  0.24
+ - ca_t control:
+    + Occurrence =  0.16
+    + Mean =  0.16
+    + Variance =  0.13
+ - N goals =  83
+ - N colls =  16

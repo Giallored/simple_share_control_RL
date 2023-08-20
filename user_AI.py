@@ -16,6 +16,7 @@ class User():
         self.stop_cmd = [0.0,1.0,-1.0]
         self.p_th = 0.1
 
+
         #threshold on bearing to turn 
         self.theta_th = np.pi/9
 
@@ -72,16 +73,7 @@ class User():
                 om=0.0
             return [v,om]
 
-            
+    def change_seed(self,seed):
+        random.seed(seed)
 
 
-
-
-
-if __name__ == '__main__':
-    try:
-        rospy.init_node('User', anonymous=True)
-        node =User(discrete = False)
-        node.main()
-    except rospy.ROSInterruptException:
-        pass

@@ -21,10 +21,10 @@ class Environment():
         
         self.agent_name=args.agent_name
         
-        
+        self.seed = None
         #dimentions
         self.dt = 0.2
-        self.n_obs = int(args.n_obs)
+        #self.n_obs = int(args.n_obs)
 
         self.map_size = (10,10)
         self.robot_size = (0.2,0.3)
@@ -113,7 +113,12 @@ class Environment():
         return observation,reward,done
 
 
-    
+    def change_seed(self,seed):
+        random.seed(seed)
+        self.usr_controller.change_seed(seed)
+
+
+
     def update(self):
         self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
         self.cls_point,self.cls_point_dist,self.cls_point_bear = self.scanner.ranges2clsPoint(self.ls_ranges)

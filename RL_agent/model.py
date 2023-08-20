@@ -14,26 +14,6 @@ def fanin_init(size, fanin=None):
 
 
 
-'''
-net1 = tf.compat.v1.layers.conv1d(s2, filters=32, kernel_size=19, strides=1, padding='valid', activation=tf.nn.relu, trainable=trainable,kernel_initializer=orth_init,name='net1')
-net2 = tf.compat.v1.layers.conv1d(net1, filters=32, kernel_size=8, strides=4, padding='valid', activation=tf.nn.relu, trainable=trainable,kernel_initializer=orth_init,name='net2')
-net3 = tf.compat.v1.layers.conv1d(net2, filters=64, kernel_size=4, strides=2, padding='valid', activation=tf.nn.relu, trainable=trainable,kernel_initializer=orth_init,name='net3')
-net4 = tf.compat.v1.layers.conv1d(net3, filters=64, kernel_size=3, strides=1, padding='valid', activation=tf.nn.relu, trainable=trainable,kernel_initializer=orth_init,name='net4')
-net4_flat=tf.reshape(net4,[-1,19*64])
-net5=tf.layers.dense(net4_flat, 608, activation=tf.nn.relu, trainable=trainable,kernel_initializer=orth_init,name='net5')
-net6 = tf.layers.dense(net5, 128, trainable=trainable, name='net6')
-net6 = tf.contrib.layers.layer_norm(net6, center=True, scale=True)
-net6 = tf.nn.relu(net6)
-net7_input = tf.concat([s1, a, net6], 1)
-net7 = tf.layers.dense(net7_input, 64, trainable=trainable,name='net7')
-net7 = tf.contrib.layers.layer_norm(net7, center=True, scale=True)
-net7 = tf.nn.relu(net7)
-net7 = tf.layers.dense(net7, 16, trainable=trainable,name='net7_')
-net7 = tf.contrib.layers.layer_norm(net7, center=True, scale=True)
-net7 = tf.nn.relu(net7)
-return tf.layers.dense(net7, 1, trainable=trainable,kernel_initializer=tf.random_uniform_initializer(minval=-3e-3,maxval=3e-3),name='q_val')  # Q(s,a)
-
-'''
 
 
 

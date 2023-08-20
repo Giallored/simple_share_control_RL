@@ -216,6 +216,72 @@ def warmup(agent,env,n_steps:int,random_wu = True,shuffle=True):
 
 
 
+def record_video(agent,env, dir, map = None,verbose = False):
+    score = []
+    agent.is_training=False
+    video_folder = os.path.join(dir,'video')
+    os.makedirs(video_folder, exist_ok=True)
+
+    for mode in ['eval','classic']: # ['eval_'+str(i) for i in range(10)]:
+        step = 0
+        done = False
+        observation = env.reset(map=map)
+        last_alpha = (1.0,0.0,0.0)
+        state = env.get_state(observation,last_alpha)
+        agent.reset(state,last_alpha)
+        env.maps.init_plot()
+        env.maps.plot(env.map,env.robot.mesh)
+        image_folder = os.path.join(dir,'images_'+mode)
+        os.makedirs(image_folder, exist_ok=True)
+
+        start = time.time()
+        while not done:
+            cmds = env.get_cmds()
+            
+            if mode=='classic':
+                alpha = get_classic_alpha(env.danger)
+                if verbose: print(f'STEP: {step}, Danger  = {env.danger} ,Alpha = {alpha}',end='\r',flush=True)
+            else:
+                alpha,a_opt = agent.select_action(state)
+                if verbose: print(f'STEP: {step}, Danger  = {env.danger} ,Alpha = {alpha}',end='\r',flush=True)
+
+            env.cur_alpha = alpha
+            env.target_alpha = get_classic_alpha(env.danger)
+            cmd = np.sum(alpha*np.transpose(cmds),axis=-1)
+            
+            new_observation,reward,done = env.step(cmd)
+            new_state = env.get_state(new_observation,last_alpha)
+            
+            env.maps.plot(env.map,env.robot.mesh)
+
+            img_name = 'step_'+ str(step).zfill(3) +'.png'
+            path = os.path.join(image_folder,img_name)
+            plt.savefig(path)
+
+            if step>=args.max_episode_length:
+                done=True
+                result =  'Nothing' 
+            else:
+                result = 'Goal riched'*env.is_goal + 'Collision'*env.is_coll
+
+            #save or update stuff
+            state = new_state
+            last_alpha = alpha
+            step+=1        
+        
+        video_name = 'video_'+str(mode)
+        make_video(image_folder,video_folder,video_name,dt = env.dt)
+    
+    duration = time.time()-start
+    if verbose:display_results(step,agent,result,score[-1],'-',duration,train=False)
+
+    return score
+
+
+
+
+
+
 if __name__ == '__main__':
     print('Lets go!')
     parser = argparse.ArgumentParser(description='PyTorch on TORCS with Multi-modal')
@@ -238,6 +304,8 @@ if __name__ == '__main__':
 
     parser.add_argument('--output_weight', default='weights', type=str, help='folder to save the weigths')
     parser.add_argument('--output_plot', default='plots', type=str, help='folder to save the plots')
+    parser.add_argument('--good_results', default='good_results', type=str, help='folder to store good results')
+
     parser.add_argument('--parent_dir', default='/home/adriano/Desktop/RL_simulated_unicycle/', type=str, help='')
     parser.add_argument('--init_w', default=0.003, type=float, help='') 
     parser.add_argument('--max_train_iter', default=200000, type=int, help='train iters each timestep')
@@ -270,18 +338,16 @@ if __name__ == '__main__':
         'mode':'train',
         'model2load':args.model
     }
+
     model_dir = get_folder(name=args.output_weight,**kargs)
     plot_dir = get_folder(name=args.output_plot,**kargs)
-
 
 
     #instatiate the agent
     n_states = 9
     vals = np.linspace(0.0,1.0,5)
-    primitives = [(x,y,z) for x in vals for y in vals for z in vals if sum((x,y,z))==1.0]
-    #primitives =  [(x,y,z) for x in (0,1) for y in (0,1) for z in (0,1) if not sum((x,y,z))==0]
-    #primitives = [(1,0,0),(0,1,0),(0,0,1)]
-    #primitives = [(x,y,0) for x in vals for y in vals if sum((x,y,0))==1.0]
+    #primitives = [(x,y,z) for x in vals for y in vals for z in vals if sum((x,y,z))==1.0]
+    primitives = [(1,0,0),(0,1,0),(0,0,1)]
     agent = DDQN(n_states, args.n_frames, primitives,args)
 
     args.output_weight = model_dir
@@ -304,6 +370,13 @@ if __name__ == '__main__':
 
     if args.mode == 'train':
         train(agent,env,args,verbose=True)
+    elif args.mode == 'rec':
+        video_dir = get_folder(name='videos',**kargs)
+        score = record_video(agent,env, map = 'labirinth',dir=video_dir)
+    elif args.mode == 'test':
+        results_dir = get_folder(name='videos',**kargs)
     else:
         print(args.mode)
         score = eval(agent,env,mode=args.mode,shuffle=True,show=True,map = ['random']*10,verbose=True)
+
+
