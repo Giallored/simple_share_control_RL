@@ -6,38 +6,38 @@ import time
 import matplotlib.animation as animation
 from RL_agent.utils import *
 from RL_agent.ddqn import DDQN
+
 from utils import *
 import argparse
 import os
 from statistics import mean
-from copy import deepcopy
-
+import wandb
 
 def train(agent,env,args,verbose=True):
     shuffle=True
-    model_dir = args.output_weight # get_folder(name=args.output_weight,**kargs)
-    train_plot = args.output_plot # get_folder(name=args.output_plot,**kargs)
-    best_score = 1000
+    agent.is_training=True
+    model_dir = args.output_weight 
+    score_th = 1000
+    epoch=0
+    map = 'random'
 
-    agent = warmup(agent,env,
-                   n_steps=args.warmup,
-                   random_wu = args.random_warmup,
-                   shuffle=shuffle)
-    
-    try:
-        epoch = args.output_plot.epochs[-1]
-    except:
-        epoch=0
+    #prefill the memory with some iterations
+    agent = warmup(agent,env,map=map,
+                n_steps=args.warmup,
+                random_wu = args.random_warmup,
+                shuffle=shuffle)
 
     print('\n\nStart TRAINING\n','-'*20)
 
     while epoch<args.max_epochs:
-        agent.is_training=True
+
+        #init vars
         step = 0
         done = False
-        observation = env.reset(map = 'random',shuffle=shuffle)
-        last_alpha = (1.0,0.0,0.0)
         episode_reward=0
+
+        #reset all 
+        observation,last_alpha = env.reset(map = map,shuffle=shuffle)
         state = env.get_state(observation,last_alpha)
         agent.reset(state,last_alpha)
 
@@ -45,36 +45,23 @@ def train(agent,env,args,verbose=True):
         if verbose: print('-'*20+'\n'*6)
 
         start = time.time()
+        
         while not done:
-
-            alpha,a_opt = agent.select_action(state)
-
-            header = 'STEP: ' + str(step) +' (train)' 
-            env.update_alpha(alpha,get_classic_alpha(env.danger))
-
             cmds = env.get_cmds()
+            alpha,a_opt = agent.select_action(state)
             cmd = np.sum(alpha*np.transpose(cmds),axis=-1)
-            if env.collision_forecast(*cmd):
-                cmd  = cmds[1]
-
-
-            new_observation,reward,done = env.step(cmd)
+            new_observation,reward,done = env.step(cmd,alpha)
             new_state = env.get_state(new_observation,last_alpha)
-            agent.observe(reward,new_state, done)
+
+            exp_alpha = get_classic_alpha(env.danger) # If you want to integrate some LfD
+            agent.observe(reward,new_state, done,exp_alpha)
 
             agent.update_policy()
-            #agent_ = deepcopy(agent)
-            #env_ = deepcopy(env)
-            #score,best_score = cross_validation(agent_,env_,model_dir,best_score,times=5)
-            #score= cross_validation(agent_,env_,times=2,verbose=True)
-            #if score>best_score:
-            #    best_score = score
-            #    dir = os.path.join(model_dir,'score_'+str(int(score)))
-            #    os.makedirs(dir, exist_ok=True)
-            #    agent.save_model(dir)
-            #    #agent.scheduler_step(score)
-            
-            if verbose:write_console(header,alpha, a_opt,env.danger,agent.get_lr(),env.dt)
+            lr = agent.get_lr()
+
+            if verbose:
+                header = 'STEP: ' + str(step) +' (train)' 
+                write_console(header,alpha, a_opt,env.danger,lr,env.dt)
 
             if step>=args.max_episode_length:
                 done=True
@@ -91,61 +78,59 @@ def train(agent,env,args,verbose=True):
        
         agent.save_model(model_dir)
         loss = agent.episode_loss/step
-        train_plot.store(epoch,episode_reward,loss,agent.lr,agent.epsilon)
-        train_plot.save_dict()
-        train_plot.plot_and_save()
-
         display_results(step,agent,result,episode_reward,loss, time.time()-start,train=True)
 
-        if True: #epoch>10:
-            score= cross_validation(agent,env,times=2,verbose=True)
-            if score>best_score:
-                best_score = score
-                dir = os.path.join(model_dir,'score_'+str(int(score)))
+        if epoch>10:
+            score,goals= cross_validation(agent,env,times=10,verbose=True)
+            if score>= score_th:#goals>=0.9:
+                dir = os.path.join(model_dir,'g_'+str(round(goals*100))+'_s'+str(int(score))+'_e'+str(epoch))
                 os.makedirs(dir, exist_ok=True)
                 agent.save_model(dir)
                 agent.scheduler_step(score)
+        else:
+            score = 0
+        wandb.log({"eval_score": score, "loss": loss, "lr":lr,"eps":agent.epsilon})
         epoch+=1
+    wandb.finish()
 
 
-def eval(agent,env, map = None,mode='classic',shuffle=True, show=True,verbose=True):
+def eval(agent,env, map = 'random',n=10,mode='classic',shuffle=True, show=True,verbose=False):
     score = []
     agent.is_training=False
-    n_episodes = len(map)
-    for ep in range(n_episodes):
+    goals=0
+    for ep in range(n):
         if verbose:print('-'*5 + ' EVALUATION '+str(ep)+'-'*5)#+'\n'*6)
         step = 0
         done = False
         episode_reward=0
-        
-        observation = env.reset(shuffle,map=map[ep])
-        last_alpha = (1.0,0.0,0.0)
+        if show:  env.maps.init_plot()
+        observation,last_alpha = env.reset(shuffle,map=map)
         state = env.get_state(observation,last_alpha)
         agent.reset(state,last_alpha)
-
-        if show:  env.maps.init_plot()
             
-        if show:env.maps.plot(env.map,env.robot.mesh)
         start = time.time()
 
         while not done:
+            #get state commands
             cmds = env.get_cmds()
-            
-            if mode=='classic':
-                alpha = get_classic_alpha(env.danger)
-                #if verbose: print(f'STEP: {step}, Danger  = {env.danger} ,Alpha = {alpha}',end='\r',flush=True)
+
+            #get blending vars
+            if env.danger<=2: alpha=(1.0,0.0,0.0)
             else:
-                alpha,a_opt = agent.select_action(state)
-                if verbose: print(f'STEP: {step}, Danger  = {env.danger} ,Alpha = {alpha}',end='\r',flush=True)
-            env.cur_alpha = alpha
-            env.target_alpha = get_classic_alpha(env.danger)
+                if mode=='classic':
+                    alpha = get_classic_alpha(env.danger)
+                else:
+                    alpha,a_opt = agent.select_action(state)
+            if verbose: print(f'STEP: {step}, Danger  = {env.danger} ,Alpha = {alpha}',end='\r',flush=True)
+            
+            #blend commands to collect the final command
             cmd = np.sum(alpha*np.transpose(cmds),axis=-1)
             
-            new_observation,reward,done = env.step(cmd)
+            #make the step and collect the new state
+            new_observation,reward,done = env.step(cmd,alpha)
             new_state = env.get_state(new_observation,last_alpha)
 
-            if show:env.maps.plot(env.map,env.robot.mesh)
-                #plot(env.goal,env.obs_mesh,env.check_points,env.robot.mesh,env.dt)
+            if show:env.maps.plot(env.map,env.robot.mesh,alpha)
 
             if step>=args.max_episode_length:
                 done=True
@@ -158,53 +143,71 @@ def eval(agent,env, map = None,mode='classic',shuffle=True, show=True,verbose=Tr
             state = new_state
             last_alpha = alpha
             step+=1        
-        #score_i = (args.max_episode_length-step)*env.is_goal
+
         score.append(episode_reward)
+        if env.is_goal:
+            goals+=1
         if show: plt.close('all')
         duration = time.time()-start
         if verbose:display_results(step,agent,result,score[-1],'-',duration,train=False)
     
-    return score
+    return score,goals
 
 
 def cross_validation(agent,env,times=5,verbose=False):
     if verbose:print('VALIDATION')
-    score_model = eval(agent,env,map=[None]*times,mode='random',
+    score_model,goals = eval(agent,env,map=None,n=times,mode='random',
                         shuffle=True,show=False,verbose=False)
     score = mean(score_model)
+    goals = goals/times
     if verbose:print('SCORE: ', score)
     
-    return score
-    
+    return score,goals
 
-def warmup(agent,env,n_steps:int,random_wu = True,shuffle=True):
+
+def fill_ERB(agent,env): 
+    while not agent.buffer.full:
+        step = 0
+        done = False
+        observation,last_alpha = env.reset()
+         
+        state = env.get_state(observation,last_alpha)
+        agent.reset(state,last_alpha)
+        while not done:
+            print(f'FILLING ERB (mem. {round(agent.buffer.get_capacity()*100,1)}%)',end='\r',flush=True)
+            cmds = env.get_cmds()
+            alpha = get_classic_alpha(env.danger)
+            cmd = np.sum(alpha*np.transpose(cmds),axis=-1)
+            new_observation,reward,done = env.step(cmd,alpha)
+            new_state = env.get_state(new_observation,last_alpha)
+            exp_alpha = get_classic_alpha(env.danger)
+            agent.observe(reward,new_state, done,exp_alpha)
+            step+=1
+
+
+def warmup(agent,env,map,n_steps:int,random_wu = True,shuffle=True):
     is_warmup = True
     step_warmap=1
-    observation = env.reset(shuffle=shuffle)
-    last_alpha = (1.0,0.0,0.0)
-    state = env.get_state(observation,last_alpha)
-    agent.reset(state,last_alpha)
+     
     while is_warmup:
         step = 0
         done = False
-        observation = env.reset(shuffle=shuffle)
-        last_alpha = (1.0,0.0,0.0)
+        observation,last_alpha = env.reset(map=map,shuffle=shuffle)
         state = env.get_state(observation,last_alpha)
         agent.reset(state,last_alpha)
         while not done:
             print(f'WARMUP {step_warmap} (mem. {round(agent.buffer.get_capacity()*100,1)}%)',end='\r',flush=True)
+            cmds = env.get_cmds()
             if random_wu:
                 alpha = agent.random_action()
             else:
                 alpha,_ = agent.select_action(state)
-
-            env.update_alpha(alpha,get_classic_alpha(env.danger))
-            cmds = env.get_cmds()
             cmd = np.sum(alpha*np.transpose(cmds),axis=-1)
-            new_observation,reward,done = env.step(cmd)
+            new_observation,reward,done = env.step(cmd,alpha)
 
             new_state = env.get_state(new_observation,last_alpha)
-            agent.observe(reward,new_state, done)
+            exp_alpha = get_classic_alpha(env.danger)
+            agent.observe(reward,new_state, done,exp_alpha)
             is_warmup = step_warmap<n_steps
             if not is_warmup:
                 break
@@ -214,23 +217,21 @@ def warmup(agent,env,n_steps:int,random_wu = True,shuffle=True):
     return agent
 
 
-
-
 def record_video(agent,env, dir, map = None,verbose = False):
     score = []
     agent.is_training=False
     video_folder = os.path.join(dir,'video')
     os.makedirs(video_folder, exist_ok=True)
 
-    for mode in ['eval','classic']: # ['eval_'+str(i) for i in range(10)]:
+    for mode in ['eval_'+str(i) for i in range(10)]: # ['eval','classic']: 
         step = 0
         done = False
-        observation = env.reset(map=map)
-        last_alpha = (1.0,0.0,0.0)
+        observation,last_alpha = env.reset(map=map)
+         
         state = env.get_state(observation,last_alpha)
         agent.reset(state,last_alpha)
         env.maps.init_plot()
-        env.maps.plot(env.map,env.robot.mesh)
+        
         image_folder = os.path.join(dir,'images_'+mode)
         os.makedirs(image_folder, exist_ok=True)
 
@@ -238,21 +239,19 @@ def record_video(agent,env, dir, map = None,verbose = False):
         while not done:
             cmds = env.get_cmds()
             
-            if mode=='classic':
-                alpha = get_classic_alpha(env.danger)
-                if verbose: print(f'STEP: {step}, Danger  = {env.danger} ,Alpha = {alpha}',end='\r',flush=True)
+            if env.danger<=2: alpha=(1.0,0.0,0.0)
             else:
-                alpha,a_opt = agent.select_action(state)
-                if verbose: print(f'STEP: {step}, Danger  = {env.danger} ,Alpha = {alpha}',end='\r',flush=True)
-
+                if mode=='classic':
+                    alpha = get_classic_alpha(env.danger)
+                else:
+                    alpha,a_opt = agent.select_action(state)
             env.cur_alpha = alpha
-            env.target_alpha = get_classic_alpha(env.danger)
             cmd = np.sum(alpha*np.transpose(cmds),axis=-1)
             
-            new_observation,reward,done = env.step(cmd)
+            new_observation,reward,done = env.step(cmd,alpha)
             new_state = env.get_state(new_observation,last_alpha)
             
-            env.maps.plot(env.map,env.robot.mesh)
+            env.maps.plot(env.map,env.robot.mesh,alpha)
 
             img_name = 'step_'+ str(step).zfill(3) +'.png'
             path = os.path.join(image_folder,img_name)
@@ -271,6 +270,7 @@ def record_video(agent,env, dir, map = None,verbose = False):
         
         video_name = 'video_'+str(mode)
         make_video(image_folder,video_folder,video_name,dt = env.dt)
+        plt.close('all')
     
     duration = time.time()-start
     if verbose:display_results(step,agent,result,score[-1],'-',duration,train=False)
@@ -288,7 +288,7 @@ if __name__ == '__main__':
     parser.add_argument('--mode', default='train', type=str, help='support option: train/eval')
     parser.add_argument('--model', default='', type=str, help='support option: train/eval')
 
-    parser.add_argument('--env', default='static_DDDQN', type=str, help='open-ai gym environment')
+    parser.add_argument('--env', default='static_DDQN', type=str, help='open-ai gym environment')
     parser.add_argument('--n_obs', default=5, type=str, help='number of obstacles in the map')
 
     parser.add_argument('--hidden1', default=512, type=int, help='hidden num of first fully connect layer')
@@ -296,9 +296,9 @@ if __name__ == '__main__':
     parser.add_argument('--rate', default=0.001, type=float, help='learning rate')
     parser.add_argument('--warmup', default=500, type=int, help='time without training but only filling the replay memory')
     parser.add_argument('--bsize', default=256, type=int, help='minibatch size')
-    parser.add_argument('--rmsize', default=2000, type=int, help='memory size')
+    parser.add_argument('--rmsize', default=1000, type=int, help='memory size')
     parser.add_argument('--tau', default=0.001, type=float, help='moving average for target network')
-    parser.add_argument('--max_episode_length', default=500, type=int, help='')
+    parser.add_argument('--max_episode_length', default=200, type=int, help='')
     parser.add_argument('--validate_steps', default=1000, type=int, help='')
     parser.add_argument('--discount', default=0.999, type=float, help='')
 
@@ -310,25 +310,14 @@ if __name__ == '__main__':
     parser.add_argument('--init_w', default=0.003, type=float, help='') 
     parser.add_argument('--max_train_iter', default=200000, type=int, help='train iters each timestep')
     parser.add_argument('--epsilon', default=1.0, type=float, help='linear decay of exploration policy')
-    parser.add_argument('--epsilon_decay', default=0.9995, type=float, help='linear decay of exploration policy')
-    parser.add_argument('--lambda_window', default=100, type=int, help='linear decay of exploration policy')
+    parser.add_argument('--epsilon_decay', default=0.9999, type=float, help='linear decay of exploration policy')
 
-    parser.add_argument('--max_epochs', default=300, type=int, help='total train epochs')
+    parser.add_argument('--max_epochs', default=500, type=int, help='total train epochs')
     parser.add_argument('--n_frames', default=3, type=int, help='train iters each timestep')
     parser.add_argument('--random_warmup', default=True, type=int, help='')
 
     args = parser.parse_args()
     args.parent_dir = os.getcwd() 
-
-    
-        
-   
-    
-    #BEST RESULTS
-    #args.fixed_pos =[
-    #    [[0.3,0.75],[-0.5,1.5]],
-    #    [[0.5,1.5],[-0.3,0.75]]
-    #]
 
 
     #get folders
@@ -342,7 +331,6 @@ if __name__ == '__main__':
     model_dir = get_folder(name=args.output_weight,**kargs)
     plot_dir = get_folder(name=args.output_plot,**kargs)
 
-
     #instatiate the agent
     n_states = 9
     vals = np.linspace(0.0,1.0,5)
@@ -351,7 +339,6 @@ if __name__ == '__main__':
     agent = DDQN(n_states, args.n_frames, primitives,args)
 
     args.output_weight = model_dir
-    args.output_plot = TrainData(parent_dir=plot_dir,env = args.env,name=agent.name) 
 
     #load model (if necessary)
     if not args.model =="":
@@ -369,14 +356,38 @@ if __name__ == '__main__':
     env = Environment(args)
 
     if args.mode == 'train':
+        wandb.init(project="SharedControlRL",
+        config={
+        "learning_rate": agent.lr,
+        "agent": 'DDQN',#agent.name,
+        "environment": "sintetic",
+        "map":'random_'+str(args.n_obs)+'obs',
+        "model_dir":model_dir,
+        "epochs": args.max_epochs,
+        "episode_lenght":args.max_episode_length,
+        "epsilon":args.epsilon,
+        "epsilon_decay":args.epsilon_decay,
+        "n_frames":args.n_frames,
+        "n_primitives":len(primitives),
+        "n_state":n_states,
+        "warmup_episodes":args.warmup,
+        "ERB_size":args.rmsize,
+        "batch":args.bsize,
+
+        }
+    )
+        WANDB_MODE="offline"
         train(agent,env,args,verbose=True)
     elif args.mode == 'rec':
+        WANDB_MODE="offline"
         video_dir = get_folder(name='videos',**kargs)
         score = record_video(agent,env, map = 'labirinth',dir=video_dir)
-    elif args.mode == 'test':
-        results_dir = get_folder(name='videos',**kargs)
+    #elif args.mode == 'test':
+    #    WANDB_MODE="offline"
+    #    score = eval(agent,env,mode=args.mode,shuffle=True,show=True,map = ['random']*10,verbose=True)
     else:
+        WANDB_MODE="offline"
         print(args.mode)
-        score = eval(agent,env,mode=args.mode,shuffle=True,show=True,map = ['random']*10,verbose=True)
+        score,goals = eval(agent,env,map = 'random',n=10,mode=args.mode,shuffle=True,show=True,verbose=True)
 
 

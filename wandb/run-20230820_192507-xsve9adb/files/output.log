@@ -1,0 +1,98 @@
+/home/adriano/.local/lib/python3.8/site-packages/shapely/set_operations.py:133: RuntimeWarning: invalid value encountered in intersection
+  return lib.intersection(a, b, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WARMUP 500 (mem. 24.9%)
+Start TRAINING
+ --------------------
+EPOCH: 0
+--------------------
+STEP: 14 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (0, 1, 0)
+ - Danger lev = 5
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run49
+RESULTS ():
+ - Result: Collision
+ - Steps: 15
+ - Reward: -494.0683311492359
+ - epsilon: 0.993
+ - beta: 0.402
+ - Mem. Capacity: 25.7%
+ - Mean loss:  1.188
+ - Duration: 1.86 sec
+--------------------
+EPOCH: 1
+--------------------
+STEP: 15 (train)
+ - Alpha = (0, 0, 1)
+ - Alpha_opt = (0, 1, 0)
+ - Danger lev = 4
+ - laerning rate = 0.001
+ - dt = 0.2
+Traceback (most recent call last):
+  File "main.py", line 397, in <module>
+    train(agent,env,args,verbose=True)
+  File "main.py", line 62, in train
+    new_observation,reward,done = env.step(cmd)
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 110, in step
+    observation = self.update()
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 123, in update
+    self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
+  File "/home/adriano/Desktop/simple_share_control_RL/laser_scanner.py", line 35, in get_scan
+    line = LineString([Point(*xy), Point(*xy_i)])
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/geometry/point.py", line 78, in __new__
+    geom = shapely.points(coords)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/decorators.py", line 77, in wrapped
+    return func(*args, **kwargs)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/creation.py", line 74, in points
+    return lib.points(coords, out=out, **kwargs)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "main.py", line 397, in <module>
+    train(agent,env,args,verbose=True)
+  File "main.py", line 62, in train
+    new_observation,reward,done = env.step(cmd)
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 110, in step
+    observation = self.update()
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 123, in update
+    self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
+  File "/home/adriano/Desktop/simple_share_control_RL/laser_scanner.py", line 35, in get_scan
+    line = LineString([Point(*xy), Point(*xy_i)])
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/geometry/point.py", line 78, in __new__
+    geom = shapely.points(coords)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/decorators.py", line 77, in wrapped
+    return func(*args, **kwargs)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/creation.py", line 74, in points
+    return lib.points(coords, out=out, **kwargs)
+KeyboardInterrupt

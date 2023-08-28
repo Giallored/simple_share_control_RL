@@ -1,0 +1,94 @@
+{
+    "os": "Linux-5.15.0-79-generic-x86_64-with-glibc2.29",
+    "python": "3.8.10",
+    "heartbeatAt": "2023-08-28T16:58:05.494162",
+    "startedAt": "2023-08-28T16:58:04.590799",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--mode",
+        "train",
+        "--env",
+        "DDQN_3Dact_random_new",
+        "--rate",
+        "0.0001",
+        "--max_epochs",
+        "500"
+    ],
+    "state": "running",
+    "program": "main.py",
+    "codePath": "main.py",
+    "git": {
+        "remote": "https://github.com/Giallored/simple_share_control_RL.git",
+        "commit": "f2c6b4e439a03cc1c66e1660cb7bfcbec28a94fe"
+    },
+    "email": "pacciarelli.1816493@studenti.uniroma1.it",
+    "root": "/home/adriano/Desktop/simple_share_control_RL",
+    "host": "NOTE-ADRIAN",
+    "username": "adriano",
+    "executable": "/usr/bin/python3",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1019.7470000000001,
+        "min": 400.0,
+        "max": 3900.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 916.489,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 930.509,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 909.225,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 917.855,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 911.138,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 905.439,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 900.05,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1032.35,
+            "min": 400.0,
+            "max": 3900.0
+        }
+    ],
+    "disk": {
+        "total": 181.6044807434082,
+        "used": 109.45947647094727
+    },
+    "gpu": "NVIDIA GeForce MX230",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce MX230",
+            "memory_total": 2147483648
+        }
+    ],
+    "memory": {
+        "total": 19.38282012939453
+    }
+}

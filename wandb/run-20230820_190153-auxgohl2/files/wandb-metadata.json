@@ -1,0 +1,88 @@
+{
+    "os": "Linux-5.15.0-78-generic-x86_64-with-glibc2.29",
+    "python": "3.8.10",
+    "heartbeatAt": "2023-08-20T17:01:54.074432",
+    "startedAt": "2023-08-20T17:01:53.209986",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--mode",
+        "train"
+    ],
+    "state": "running",
+    "program": "main.py",
+    "codePath": "main.py",
+    "git": {
+        "remote": "https://github.com/Giallored/simple_share_control_RL.git",
+        "commit": "f2c6b4e439a03cc1c66e1660cb7bfcbec28a94fe"
+    },
+    "email": "pacciarelli.1816493@studenti.uniroma1.it",
+    "root": "/home/adriano/Desktop/simple_share_control_RL",
+    "host": "NOTE-ADRIAN",
+    "username": "adriano",
+    "executable": "/usr/bin/python3",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1307.68275,
+        "min": 400.0,
+        "max": 3900.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1235.301,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1234.844,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1200.113,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1217.272,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1185.021,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1197.195,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1196.342,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1391.24,
+            "min": 400.0,
+            "max": 3900.0
+        }
+    ],
+    "disk": {
+        "total": 181.6044807434082,
+        "used": 106.71427154541016
+    },
+    "gpu": "NVIDIA GeForce MX230",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce MX230",
+            "memory_total": 2147483648
+        }
+    ],
+    "memory": {
+        "total": 19.38290786743164
+    }
+}

@@ -1,0 +1,88 @@
+{
+    "os": "Linux-5.15.0-78-generic-x86_64-with-glibc2.29",
+    "python": "3.8.10",
+    "heartbeatAt": "2023-08-20T11:06:49.637971",
+    "startedAt": "2023-08-20T11:06:48.784100",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--mode",
+        "train"
+    ],
+    "state": "running",
+    "program": "main.py",
+    "codePath": "main.py",
+    "git": {
+        "remote": "https://github.com/Giallored/simple_share_control_RL.git",
+        "commit": "f2c6b4e439a03cc1c66e1660cb7bfcbec28a94fe"
+    },
+    "email": "pacciarelli.1816493@studenti.uniroma1.it",
+    "root": "/home/adriano/Desktop/simple_share_control_RL",
+    "host": "NOTE-ADRIAN",
+    "username": "adriano",
+    "executable": "/usr/bin/python3",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1107.45,
+        "min": 400.0,
+        "max": 3900.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1094.963,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 961.025,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1007.124,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 925.535,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 918.79,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 900.849,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 900.237,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 900.004,
+            "min": 400.0,
+            "max": 3900.0
+        }
+    ],
+    "disk": {
+        "total": 181.6044807434082,
+        "used": 106.31433868408203
+    },
+    "gpu": "NVIDIA GeForce MX230",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce MX230",
+            "memory_total": 2147483648
+        }
+    ],
+    "memory": {
+        "total": 19.38290786743164
+    }
+}

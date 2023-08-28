@@ -4,8 +4,6 @@ import torch
 from torch.autograd import Variable
 import numpy as np
 
-#USE_CUDA = False#torch.cuda.is_available()
-#FLOAT = torch.cuda.FloatTensor if USE_CUDA else torch.FloatTensor
 
 def power_decay_schedule(n: int,
                     eps_decay: float,

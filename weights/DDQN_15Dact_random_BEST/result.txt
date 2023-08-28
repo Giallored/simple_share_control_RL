@@ -1,0 +1,23 @@
+PARAMS:
+ * seed = None (uses clock)
+ * 50 iterations
+ * max n. steps = 150
+ * 0.2 random action by the user
+
+MODE =eval
+ - Mean score = 1290.200179
+ - Mean steps = 97.520000
+ - usr control:
+    + Occurrence = 0.970000
+    + Mean = 0.550000
+    + Variance = 0.060000
+ - ca_r control:
+    + Occurrence = 0.640000
+    + Mean = 0.330000
+    + Variance = 0.070000
+ - ca_t control:
+    + Occurrence = 0.160000
+    + Mean = 0.110000
+    + Variance = 0.060000
+ - goals = 0.88
+ - colls = 0.12

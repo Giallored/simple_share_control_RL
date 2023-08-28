@@ -1,21 +1,17 @@
 import numpy as np
 from shapely.geometry import LineString,Point
-from shapely import intersection
-import time
-from utils import check_time
-    
+
 
 class LaserScanner():
     def __init__(self):
-        self.angle_min= -1.9198600053787231#-np.pi # *0.55 #
-        self.angle_max=  1.9198600053787231 #np.pi # *0.55 #
+        self.angle_min= -1.9198600053787231
+        self.angle_max=  1.9198600053787231 
         self.angle_increment= 0.01 # 0.005774015095084906
         self.range_min= 0.05000000074505806
         self.range_max= 2 #25.0
         self.resolution = int((self.angle_max-self.angle_min)//self.angle_increment)
         self.angles = np.linspace(self.angle_min,self.angle_max,self.resolution)
         self.obstacles = []
-
 
 
     def get_scan(self,pose):
@@ -48,9 +44,9 @@ class LaserScanner():
                         range_i = centre.distance(p_i)
             ranges.append(range_i)      
         mask = self.get_mask(ranges,3)
-
         return ranges,mask
-    
+
+
     def ranges2points(self,ranges):
         pointCloud = []
         for r,a in zip(ranges,self.angles):
@@ -58,7 +54,7 @@ class LaserScanner():
                 p = (r*np.cos(a),r*np.sin(a))
                 pointCloud.append(p)
         return pointCloud
-    
+
 
     def ranges2clsPoint(self,ranges):
         r = min(ranges)
@@ -68,8 +64,6 @@ class LaserScanner():
         a = self.angles[i]
         cls_point = [r*np.cos(a),r*np.sin(a)]
         return cls_point,r,a
-        
-
 
 
     def get_mask(self,ranges,max_dist):
@@ -80,9 +74,11 @@ class LaserScanner():
             else:
                 mask.append(1)
         return mask
-    
+
+
     def reset(self, obs_mesh):
         self.obstacles = obs_mesh
+
 
     def preproces(self,ranges):
         ranges = np.clip(ranges,self.range_min,self.range_max)

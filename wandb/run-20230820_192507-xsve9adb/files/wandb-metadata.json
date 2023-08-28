@@ -1,0 +1,90 @@
+{
+    "os": "Linux-5.15.0-78-generic-x86_64-with-glibc2.29",
+    "python": "3.8.10",
+    "heartbeatAt": "2023-08-20T17:25:08.278829",
+    "startedAt": "2023-08-20T17:25:07.458417",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--mode",
+        "train",
+        "--bsize",
+        "10"
+    ],
+    "state": "running",
+    "program": "main.py",
+    "codePath": "main.py",
+    "git": {
+        "remote": "https://github.com/Giallored/simple_share_control_RL.git",
+        "commit": "f2c6b4e439a03cc1c66e1660cb7bfcbec28a94fe"
+    },
+    "email": "pacciarelli.1816493@studenti.uniroma1.it",
+    "root": "/home/adriano/Desktop/simple_share_control_RL",
+    "host": "NOTE-ADRIAN",
+    "username": "adriano",
+    "executable": "/usr/bin/python3",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 1296.903625,
+        "min": 400.0,
+        "max": 3900.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 1228.924,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1118.564,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1139.546,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1100.388,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1069.602,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1098.665,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1100.31,
+            "min": 400.0,
+            "max": 3900.0
+        },
+        {
+            "current": 1094.891,
+            "min": 400.0,
+            "max": 3900.0
+        }
+    ],
+    "disk": {
+        "total": 181.6044807434082,
+        "used": 106.70877456665039
+    },
+    "gpu": "NVIDIA GeForce MX230",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce MX230",
+            "memory_total": 2147483648
+        }
+    ],
+    "memory": {
+        "total": 19.38290786743164
+    }
+}

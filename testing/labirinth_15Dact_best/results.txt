@@ -2,7 +2,7 @@ PARAMS:
  * seed = None (uses clock)
  * 100 iterations
  * max n. steps = 500
- * 10% random action by the user
+ * 5% random action by the user
 
 RESULTS:
  - Mean score =  936.4630371652257

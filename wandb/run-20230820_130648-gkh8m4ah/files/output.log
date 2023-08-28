@@ -1,0 +1,298 @@
+/home/adriano/.local/lib/python3.8/site-packages/shapely/set_operations.py:133: RuntimeWarning: invalid value encountered in intersection
+  return lib.intersection(a, b, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WARMUP 500 (mem. 24.9%)
+Start TRAINING
+ --------------------
+EPOCH: 0
+--------------------
+STEP: 2 (train)
+ - Alpha = (0, 0, 1)
+ - Alpha_opt = (0, 1, 0)
+ - Danger lev = 2
+ - laerning rate = 0.001
+
+ - dt = 0.2
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 451
+ - Reward: -923.1944785972591
+ - epsilon: 0.798
+ - beta: 0.613
+ - Mem. Capacity: 47.5%
+ - Mean loss:  5089.337
+ - Duration: 55.69 sec
+--------------------
+VALIDATION
+SCORE:  -169.87063809118638
+EPOCH: 1
+--------------------
+STEP: 1 (train)
+ - Alpha = (0, 1, 0)
+ - Alpha_opt = (0, 0, 1)
+ - Danger lev = 2
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 128
+ - Reward: -587.5392020053023
+ - epsilon: 0.749
+ - beta: 0.66
+ - Mem. Capacity: 53.9%
+ - Mean loss:  2506.657
+ - Duration: 16.16 sec
+--------------------
+VALIDATION
+SCORE:  -639.8351164966296
+EPOCH: 2
+--------------------
+STEP: 10 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (0, 1, 0)
+ - Danger lev = 5
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 16
+ - Reward: -484.41875475281495
+ - epsilon: 0.743
+ - beta: 0.665
+ - Mem. Capacity: 54.7%
+ - Mean loss:  2075.825
+ - Duration: 2.13 sec
+--------------------
+VALIDATION
+SCORE:  -639.8351164966296
+EPOCH: 3
+--------------------
+STEP: 14 (train)
+ - Alpha = (0, 1, 0)
+ - Alpha_opt = (0, 1, 0)
+ - Danger lev = 5
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 19
+ - Reward: -485.6649793422189
+ - epsilon: 0.736
+ - beta: 0.672
+ - Mem. Capacity: 55.6%
+ - Mean loss:  2432.514
+ - Duration: 2.56 sec
+--------------------
+VALIDATION
+SCORE:  -639.8351164966296
+EPOCH: 4
+--------------------
+STEP: 1 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (0, 1, 0)
+ - Danger lev = 2
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 16
+ - Reward: -504.7039238325704
+ - epsilon: 0.73
+ - beta: 0.677
+ - Mem. Capacity: 56.5%
+ - Mean loss:  2432.449
+ - Duration: 2.17 sec
+--------------------
+VALIDATION
+SCORE:  -639.8351164966296
+EPOCH: 5
+--------------------
+STEP: 7 (train)
+ - Alpha = (0, 0, 1)
+ - Alpha_opt = (0, 1, 0)
+ - Danger lev = 3
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 131
+ - Reward: -558.7234806986114
+ - epsilon: 0.684
+ - beta: 0.717
+ - Mem. Capacity: 63.0%
+ - Mean loss:  2318.305
+ - Duration: 17.2 sec
+--------------------
+VALIDATION
+SCORE:  -479.71283579286
+EPOCH: 6
+--------------------
+STEP: 6 (train)
+ - Alpha = (0, 0, 1)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 120
+ - Reward: -627.3679891002593
+ - epsilon: 0.644
+ - beta: 0.749
+ - Mem. Capacity: 69.0%
+ - Mean loss:  2987.058
+ - Duration: 15.75 sec
+--------------------
+VALIDATION
+SCORE:  -180.8373421192137
+EPOCH: 7
+--------------------
+STEP: 2 (train)
+ - Alpha = (0, 1, 0)
+ - Alpha_opt = (0, 0, 1)
+ - Danger lev = 2
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 459
+ - Reward: -1080.6349001130393
+ - epsilon: 0.512
+ - beta: 0.841
+ - Mem. Capacity: 92.0%
+ - Mean loss:  1042.373
+ - Duration: 61.64 sec
+--------------------
+VALIDATION
+SCORE:  -180.8373421192137
+EPOCH: 8
+--------------------
+STEP: 7 (train)
+ - Alpha = (0, 0, 1)
+ - Alpha_opt = (0, 0, 1)
+ - Danger lev = 3
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Collision
+ - Steps: 60
+ - Reward: -511.10716025606854
+ - epsilon: 0.497
+ - beta: 0.85
+ - Mem. Capacity: 95.0%
+ - Mean loss:  991.609
+ - Duration: 8.37 sec
+--------------------
+VALIDATION
+SCORE:  -180.8373421192137
+EPOCH: 9
+--------------------
+STEP: 7 (train)
+ - Alpha = (0, 0, 1)
+ - Alpha_opt = (0, 0, 1)
+ - Danger lev = 3
+ - laerning rate = 0.001
+ - laerning rate = 0.001
+ - dt = 0.2
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/static_DDDQN-run47
+RESULTS ():
+ - Result: Nothing
+ - Steps: 501
+ - Reward: -483.97231653612863
+ - epsilon: 0.387
+ - beta: 0.909
+ - Mem. Capacity: 100.0%
+ - Mean loss:  1021.795
+ - Duration: 74.48 sec
+--------------------
+VALIDATION
+SCORE:  -771.4564449356876
+EPOCH: 10
+--------------------
+STEP: 0 (train)
+ - Alpha = (0, 0, 1)
+ - Alpha_opt = (0, 0, 1)
+ - Danger lev = 2
+ - laerning rate = 0.001
+ - dt = 0.2
+Traceback (most recent call last):
+  File "main.py", line 393, in <module>
+    )
+  File "main.py", line 62, in train
+    new_observation,reward,done = env.step(cmd)
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 110, in step
+    observation = self.update()
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 123, in update
+    self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
+  File "/home/adriano/Desktop/simple_share_control_RL/laser_scanner.py", line 35, in get_scan
+    line = LineString([Point(*xy), Point(*xy_i)])
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/geometry/point.py", line 78, in __new__
+    geom = shapely.points(coords)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/decorators.py", line 77, in wrapped
+    return func(*args, **kwargs)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/creation.py", line 74, in points
+    return lib.points(coords, out=out, **kwargs)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "main.py", line 393, in <module>
+    )
+  File "main.py", line 62, in train
+    new_observation,reward,done = env.step(cmd)
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 110, in step
+    observation = self.update()
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 123, in update
+    self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
+  File "/home/adriano/Desktop/simple_share_control_RL/laser_scanner.py", line 35, in get_scan
+    line = LineString([Point(*xy), Point(*xy_i)])
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/geometry/point.py", line 78, in __new__
+    geom = shapely.points(coords)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/decorators.py", line 77, in wrapped
+    return func(*args, **kwargs)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/creation.py", line 74, in points
+    return lib.points(coords, out=out, **kwargs)
+KeyboardInterrupt

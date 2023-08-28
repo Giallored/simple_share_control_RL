@@ -1,0 +1,70 @@
+wandb_version: 1
+
+learning_rate:
+  desc: null
+  value: 0.0001
+agent:
+  desc: null
+  value: DDQN
+environment:
+  desc: null
+  value: sintetic
+map:
+  desc: null
+  value: random_5obs
+model_dir:
+  desc: null
+  value: /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+epochs:
+  desc: null
+  value: 500
+episode_lenght:
+  desc: null
+  value: 200
+epsilon:
+  desc: null
+  value: 1.0
+epsilon_decay:
+  desc: null
+  value: 0.9999
+n_frames:
+  desc: null
+  value: 3
+n_primitives:
+  desc: null
+  value: 3
+n_state:
+  desc: null
+  value: 9
+warmup_episodes:
+  desc: null
+  value: 500
+ERB_size:
+  desc: null
+  value: 1000
+batch:
+  desc: null
+  value: 256
+_wandb:
+  desc: null
+  value:
+    python_version: 3.8.10
+    cli_version: 0.15.8
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1693241884.611593
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 55
+      3:
+      - 16
+      - 23
+      4: 3.8.10
+      5: 0.15.8
+      8:
+      - 5

@@ -14,8 +14,7 @@ class User():
         self.turn_R = -1.0
         self.primitives = [[ self.straight,self.turn_L],[ self.straight,self.turn_R],[ self.straight,0.0],[0.0,self.turn_L],[0.0,self.turn_R]]
         self.stop_cmd = [0.0,1.0,-1.0]
-        self.p_th = 0.1
-
+        self.p_th = 0.1 #0.2
 
         #threshold on bearing to turn 
         self.theta_th = np.pi/9

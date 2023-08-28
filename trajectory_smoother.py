@@ -1,7 +1,6 @@
 import random
 import numpy as np
 from collections import deque
-from std_msgs.msg import Bool,Float64MultiArray
 
 class Trajectory_smooter():
     def __init__(self,poly_degree=2, n_actions=5,dt=0.15):
@@ -9,22 +8,22 @@ class Trajectory_smooter():
         self.n_actions = n_actions
         self.dt=dt
         self.reset()
-        
+
+
     def reset(self):
         self.previous_time=self.n_actions*self.dt
         n = self.n_actions
         new_actions  = [[t*self.dt,0,0] for t in range(n)]
         self.last_actions = deque(new_actions,maxlen=n)
 
-        
 
     def get_cmd(self,time):
         dt = time - self.previous_time
         ts_cmd = self.fit_polynomial(dt)
-
         self.previous_time=time
         a = self.last_actions[-1]
         return a[1:]
+
 
     def fit_polynomial(self,dt):
         actions = np.array(self.last_actions)
@@ -42,6 +41,7 @@ class Trajectory_smooter():
         new_om_cmd = om_poly(next_time)
 
         return [new_v_cmd,new_om_cmd]
+
 
     def store_action(self,time,action):
         #time = rospy.get_time()

@@ -3,13 +3,12 @@ import matplotlib.pyplot as plt
 from utils import clamp_angle
 
 class Collision_avoider():
-    def __init__(self, delta=0.7,K_lin=2.0,K_ang=5.0,k_r=50.0):
+    def __init__(self, delta=0.7,K_lin=1.0,K_ang=3.0,k_r=1.5):
         self.th_dist=delta   #distance threshold
         self.K_lin= K_lin
         self.K_ang= K_ang
-        self.k_rr = k_r
-        self.k_rt= 5.0
-        self.d_th = 0.2 # smallest distance
+        self.k_r= k_r
+        self.d_th = 0.1 # smallest distance
         self.gamma = 2
         self.frames={}
         self.f_i = 0
@@ -37,49 +36,67 @@ class Collision_avoider():
         if X_obs[0] ==None:
             return [0.0,0.0],[0.0,0.0]
         theta =clamp_angle(theta) 
-        sign = - np.sign(theta)
+        sign = np.sign(theta)
         if sign==0.0: sign = 1
+
+
+        '''
+
         R = np.array([[0,1],[-1,0]]) *sign
         dU = self.dU_rt(dist)
-        F_r = dU*X_obs
-        #rotational component
-        #dU_r=self.d_Ur(X_obs,[0,0])   
-        #F_r = np.array([dU_r[1],-dU_r[0]]) 
-        #dtheta_d = np.arctan2(*F_r)
-        #print('before: ',dtheta_d/np.pi*180 )
-        #dtheta_d = clamp_angle(dtheta_d)
-        #print('after: ',dtheta_d/np.pi*180)
-        #om_cmd = np.clip(-self.K_ang*(dtheta_d),self.min_om,self.max_om)
-        #print('om_cmd: ',om_cmd)
-        #input()
-        #v_cmd = np.clip(self.K_lin*(theta/np.pi)**2,self.min_v,self.max_v)
-        #cmd_r = [v_cmd,om_cmd]
-
         #Rotational component
-        dtheta = np.arctan2(*F_r)
-        dtheta = clamp_angle(dtheta)*sign
+        F_r = dU*(R @ X_obs)
+        dtheta_r = np.arctan2(F_r[1],F_r[0])
+        dtheta_r = clamp_angle(dtheta_r)
+        #print('dU: ',dU)
+        #print('dthe_r: ',dtheta_r/np.pi*180)
 
-        v_cmd = self.K_lin*(theta/np.pi)**2
+        #v_cmd = self.K_lin*(dtheta_r/np.pi)**2
+        v_cmd = self.K_lin*(dtheta_r/np.pi)**2
+
         v_cmd =  np.clip(v_cmd,self.min_v,self.max_v)
-        om_cmd = np.clip(-self.K_ang*(dtheta) ,self.min_om,self.max_om)
+        om_cmd = np.clip(-self.K_ang*(dtheta_r) ,self.min_om,self.max_om)
         cmd_r = [v_cmd,om_cmd]
         
-
-
         #translational component
         #F_t = dU*X_obs
-        F_t = F_r @ R 
-        dtheta_d = np.arctan2(*F_t)
-        dtheta_d = clamp_angle(dtheta_d)
-        om_cmd = np.clip(self.K_ang*(dtheta_d),self.min_om,self.max_om)
-        v_cmd = np.clip(self.K_lin*(theta/np.pi)**2,self.min_v,self.max_v)
-        cmd_t = [v_cmd,om_cmd]
+        F_t = dU * X_obs
+        dtheta_t = np.arctan2(F_t[1],F_t[0])
+        dtheta_t = clamp_angle(dtheta_t)
+        #print('dthe_t: ',dtheta_t/np.pi*180)
+        #print('norm_t',F_t[0]*np.cos(dtheta_t)+F_t[1]*np.sin(dtheta_t))
+        #input()
 
+        om_cmd = np.clip(self.K_ang*(dtheta_t),self.min_om,self.max_om)
+        v_cmd = self.K_lin*(dtheta_t/np.pi)**2
+
+        #v_cmd = np.clip(self.K_lin*(theta/np.pi)**2,self.min_v,self.max_v)
+        v_cmd = np.clip(v_cmd,self.min_v,self.max_v)
+        cmd_t = [v_cmd,om_cmd]
+        '''
+        
+        #Rotational component
+        dtheta_r = clamp_angle(theta + sign*np.pi/2)
+        om_cmd = np.clip(-self.K_ang*(dtheta_r) ,self.min_om,self.max_om)
+        #v_cmd = self.K_lin*(dtheta_r/np.pi)**4
+        v_cmd = max(self.K_lin*(dtheta_r/np.pi)**4, self.k_r * (dist - self.d_th)**2)
+
+        v_cmd =  np.clip(v_cmd,self.min_v,self.max_v)
+        cmd_r = [v_cmd,om_cmd]
+
+        #translational component
+        dtheta_t = clamp_angle(theta+np.pi)
+        om_cmd = np.clip(self.K_ang*(dtheta_t),self.min_om,self.max_om)
+        #v_cmd = self.K_lin*(dtheta_t/np.pi)**2
+        v_cmd = max(self.K_lin*(dtheta_t/np.pi)**2, self.k_r * (dist - self.d_th)**2)
+
+        v_cmd = np.clip(v_cmd,self.min_v,self.max_v)
+        cmd_t = [v_cmd,om_cmd]
 
         return cmd_r, cmd_t
     
     def dU_rt(self,dist):
-        return self.k_rt * (1/dist - 1/self.d_th) * 1/(dist**3) 
+        return self.k_r * (1/dist - 1/self.d_th) * 1/(dist**3) 
 
     
     def get_cls_point(self,point_cloud):
