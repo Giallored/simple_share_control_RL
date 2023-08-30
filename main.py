@@ -15,7 +15,7 @@ import wandb
 
 def train(agent,env,args,verbose=True):
     shuffle=True
-    agent.is_training=True
+    
     model_dir = args.output_weight 
     score_th = 1000
     epoch=0
@@ -30,7 +30,7 @@ def train(agent,env,args,verbose=True):
     print('\n\nStart TRAINING\n','-'*20)
 
     while epoch<args.max_epochs:
-
+        agent.is_training=True
         #init vars
         step = 0
         done = False
@@ -263,7 +263,7 @@ def record_video(agent,env, dir, map = None,verbose = False):
             else:
                 result = 'Goal riched'*env.is_goal + 'Collision'*env.is_coll
 
-            #save or update stuff
+            #save or update sepsilontuff
             state = new_state
             last_alpha = alpha
             step+=1        

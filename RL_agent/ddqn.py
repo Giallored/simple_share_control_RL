@@ -23,7 +23,6 @@ class DDQN(object):
         self.scheduler_type = 'StepLR'
         self.n_frames = n_frames
         
-        # Create Actor and Critic Network
         net_cfg = {
             'hidden1':args.hidden1, 
             'hidden2':args.hidden2
@@ -51,7 +50,6 @@ class DDQN(object):
             self.epsilon = args.epsilon
             self.epsilon_min=0.01
             self.is_training = is_training
-            self.policy_freq=2 #delayed actor update
             self.train_iter = 0
             self.max_iter = args.max_train_iter
 
@@ -99,13 +97,7 @@ class DDQN(object):
         self.a_t=np.array(init_act)
         self.episode_loss=0.
 
-    def e_greedy(self):
-        p = np.random.random()
-        if p < self.epsilon:
-            return 'explore'
-        else:
-            return 'exploit'
-    
+
     def get_lr(self):
         return self.lr_scheduler.get_last_lr()[0]
 
@@ -196,19 +188,19 @@ class DDQN(object):
         obs_b, svar_b, a_b, r_b, t_b, next_obs_b, next_svar_b, indices, weights,aE_b = batch
 
         #process cur state batch
-        svar_tsr = to_tensor(svar_b,use_cuda=self.use_cuda)#.reshape(self.batch_size,-1)
-        next_svar_tsr = to_tensor(next_svar_b,use_cuda=self.use_cuda)#.reshape(self.batch_size,-1)
-        obs_tsr = to_tensor(obs_b,use_cuda=self.use_cuda)#.reshape(self.batch_size,self.n_frames,-1)
+        svar_tsr = to_tensor(svar_b,use_cuda=self.use_cuda)
+        next_svar_tsr = to_tensor(next_svar_b,use_cuda=self.use_cuda)
+        obs_tsr = to_tensor(obs_b,use_cuda=self.use_cuda)
         s_tsr =[obs_tsr,svar_tsr]   
 
-        next_obs_tsr = to_tensor(next_obs_b,use_cuda=self.use_cuda)#.reshape(self.batch_size,self.n_frames,-1)
+        next_obs_tsr = to_tensor(next_obs_b,use_cuda=self.use_cuda)
         next_s_tsr = [next_obs_tsr, next_svar_tsr]
         
         #process other batchs
-        a_tsr = to_longTensor(a_b,use_cuda=self.use_cuda)#.squeeze(1)#.reshape(self.batch_size,-1)
-        r_tsr = to_tensor(r_b,use_cuda=self.use_cuda)#.squeeze(1)
-        t_tsr = to_tensor(t_b.astype(np.float),use_cuda=self.use_cuda)#.squeeze(1)
-        weights_tsr = to_tensor(weights.astype(np.float),use_cuda=self.use_cuda)#.squeeze(1)
+        a_tsr = to_longTensor(a_b,use_cuda=self.use_cuda)
+        r_tsr = to_tensor(r_b,use_cuda=self.use_cuda)
+        t_tsr = to_tensor(t_b.astype(np.float),use_cuda=self.use_cuda)
+        weights_tsr = to_tensor(weights.astype(np.float),use_cuda=self.use_cuda)
         J_td = self.Jtd(s_tsr,a_tsr,r_tsr,t_tsr,next_s_tsr,indices, weights_tsr )
 
         #J_E =  self.JE(s_tsr,aE_b.squeeze()) #for LfD

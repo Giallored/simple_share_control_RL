@@ -303,3 +303,1400 @@ RESULTS ():
  - Mean loss:  272.661
  - Duration: 5.47 sec
 --------------------
+VALIDATION
+SCORE:  -446.98463774241424
+EPOCH: 13
+--------------------
+STEP: 6 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 22
+ - Reward: -888.6491537503873
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  249.177
+ - Duration: 4.71 sec
+--------------------
+VALIDATION
+SCORE:  6.037959413517626
+EPOCH: 14
+--------------------
+STEP: 9 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 62
+ - Reward: -678.0406765699581
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  150.04
+ - Duration: 9.81 sec
+--------------------
+VALIDATION
+SCORE:  -208.18847342439943
+EPOCH: 15
+--------------------
+STEP: 8 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 24
+ - Reward: -875.2068281304149
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  242.993
+ - Duration: 3.42 sec
+--------------------
+VALIDATION
+SCORE:  -663.4947910895281
+EPOCH: 16
+--------------------
+STEP: 9 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Goal riched
+ - Steps: 61
+ - Reward: 1314.4449980027339
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  204.052
+ - Duration: 8.25 sec
+--------------------
+VALIDATION
+SCORE:  -660.1037125042549
+EPOCH: 17
+--------------------
+STEP: 7 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 12
+ - Reward: -938.3351054654323
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  168.9
+ - Duration: 1.73 sec
+--------------------
+VALIDATION
+SCORE:  -428.7419794363096
+EPOCH: 18
+--------------------
+STEP: 8 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 10
+ - Reward: -948.7260538887468
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  143.654
+ - Duration: 1.45 sec
+--------------------
+VALIDATION
+SCORE:  -656.8403033794109
+EPOCH: 19
+--------------------
+STEP: 7 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Goal riched
+ - Steps: 57
+ - Reward: 1291.9732284145837
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  159.794
+ - Duration: 8.29 sec
+--------------------
+VALIDATION
+SCORE:  -880.5707807056519
+EPOCH: 20
+--------------------
+STEP: 4 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Goal riched
+ - Steps: 59
+ - Reward: 1305.155837774355
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  199.201
+ - Duration: 8.26 sec
+--------------------
+VALIDATION
+SCORE:  -680.1640120635457
+EPOCH: 21
+--------------------
+STEP: 5 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 25
+ - Reward: -872.2732112723771
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  136.054
+ - Duration: 3.78 sec
+--------------------
+VALIDATION
+SCORE:  -867.9500377299717
+EPOCH: 22
+--------------------
+STEP: 8 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 25
+ - Reward: -873.6820802180187
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  217.525
+ - Duration: 3.97 sec
+--------------------
+VALIDATION
+SCORE:  -675.7194295631649
+EPOCH: 23
+--------------------
+STEP: 7 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 12
+ - Reward: -935.5256857286042
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  232.53
+ - Duration: 1.98 sec
+--------------------
+VALIDATION
+SCORE:  -887.3603061478747
+EPOCH: 24
+--------------------
+STEP: 4 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 13
+ - Reward: -931.6155151305339
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  131.301
+ - Duration: 2.1 sec
+--------------------
+VALIDATION
+SCORE:  -656.7849039510106
+EPOCH: 25
+--------------------
+STEP: 2 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 13
+ - Reward: -933.7015508470131
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  87.234
+ - Duration: 2.05 sec
+--------------------
+VALIDATION
+SCORE:  -217.95024758366975
+EPOCH: 26
+--------------------
+STEP: 1 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 17
+ - Reward: -913.7302114716035
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  205.187
+ - Duration: 2.49 sec
+--------------------
+VALIDATION
+SCORE:  -9.83649637100881
+EPOCH: 27
+--------------------
+STEP: 0 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Goal riched
+ - Steps: 62
+ - Reward: 1318.2767718230505
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  188.274
+ - Duration: 9.24 sec
+--------------------
+VALIDATION
+SCORE:  -840.6753926958987
+EPOCH: 28
+--------------------
+STEP: 6 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Goal riched
+ - Steps: 65
+ - Reward: 1332.6767429607821
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  246.593
+ - Duration: 9.73 sec
+--------------------
+VALIDATION
+SCORE:  -424.66504421646187
+EPOCH: 29
+--------------------
+STEP: 8 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+
+STEP: 35 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 3
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Goal riched
+ - Steps: 67
+ - Reward: 1343.1540383178958
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  191.748
+ - Duration: 9.77 sec
+--------------------
+VALIDATION
+SCORE:  -638.3672344744865
+EPOCH: 30
+--------------------
+STEP: 14 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 24
+ - Reward: -875.2589274841766
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  186.089
+ - Duration: 3.3 sec
+--------------------
+VALIDATION
+SCORE:  -451.51272121495754
+EPOCH: 31
+--------------------
+STEP: 13 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 3
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 42
+ - Reward: -785.9216184061044
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  217.425
+ - Duration: 6.22 sec
+--------------------
+VALIDATION
+SCORE:  -637.5071545441577
+EPOCH: 32
+--------------------
+STEP: 9 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 31
+ - Reward: -839.2994679226179
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  187.22
+ - Duration: 4.74 sec
+--------------------
+VALIDATION
+SCORE:  -421.87896561838846
+EPOCH: 33
+--------------------
+STEP: 3 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 18
+ - Reward: -905.5961739254244
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  192.834
+ - Duration: 2.87 sec
+--------------------
+VALIDATION
+SCORE:  -651.8368441014263
+EPOCH: 34
+--------------------
+STEP: 11 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+
+ - dt = 0.1
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 47
+ - Reward: -761.9750978385147
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  149.393
+ - Duration: 6.95 sec
+--------------------
+VALIDATION
+SCORE:  -208.3177779000158
+EPOCH: 35
+--------------------
+STEP: 8 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 42
+ - Reward: -777.2923596206539
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  241.686
+ - Duration: 6.52 sec
+--------------------
+VALIDATION
+SCORE:  -441.10792366529296
+EPOCH: 36
+--------------------
+STEP: 10 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 11
+ - Reward: -943.9978302002103
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  187.924
+ - Duration: 1.66 sec
+--------------------
+VALIDATION
+SCORE:  -207.94678023416168
+EPOCH: 37
+--------------------
+STEP: 3 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 23
+ - Reward: -880.4208398588305
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  169.157
+ - Duration: 3.48 sec
+--------------------
+VALIDATION
+SCORE:  -887.3343147091973
+EPOCH: 38
+--------------------
+STEP: 7 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 13
+ - Reward: -929.4980767358577
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  242.48
+ - Duration: 2.16 sec
+--------------------
+VALIDATION
+SCORE:  -673.603923504138
+EPOCH: 39
+--------------------
+STEP: 10 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 20
+ - Reward: -897.346812881796
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  121.867
+ - Duration: 2.9 sec
+--------------------
+VALIDATION
+SCORE:  -423.6434853285415
+EPOCH: 40
+--------------------
+STEP: 11 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 25
+ - Reward: -870.7308750857137
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  121.103
+ - Duration: 3.68 sec
+--------------------
+VALIDATION
+SCORE:  -433.5609792320878
+EPOCH: 41
+--------------------
+STEP: 0 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 28
+ - Reward: -856.8290704736016
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  205.486
+ - Duration: 4.28 sec
+--------------------
+VALIDATION
+SCORE:  -189.7087846018554
+EPOCH: 42
+--------------------
+STEP: 6 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 12
+ - Reward: -938.3686928119836
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  132.754
+ - Duration: 1.97 sec
+--------------------
+VALIDATION
+SCORE:  -656.0454635574534
+EPOCH: 43
+--------------------
+STEP: 1 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 14
+ - Reward: -925.3147842500059
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  241.349
+ - Duration: 2.23 sec
+--------------------
+VALIDATION
+SCORE:  -661.9279472968974
+EPOCH: 44
+--------------------
+STEP: 2 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Goal riched
+ - Steps: 69
+ - Reward: 1364.8677671431442
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  157.802
+ - Duration: 10.84 sec
+--------------------
+VALIDATION
+SCORE:  -422.3734299937682
+EPOCH: 45
+--------------------
+STEP: 0 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 19
+ - Reward: -903.4850534100242
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  195.282
+ - Duration: 2.94 sec
+--------------------
+VALIDATION
+SCORE:  -639.0872499690275
+EPOCH: 46
+--------------------
+STEP: 6 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 24
+ - Reward: -874.4647590976781
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  169.115
+ - Duration: 3.42 sec
+--------------------
+VALIDATION
+SCORE:  -421.4601983325472
+EPOCH: 47
+--------------------
+STEP: 12 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 19
+ - Reward: -902.1097568705352
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  155.818
+ - Duration: 2.72 sec
+--------------------
+VALIDATION
+SCORE:  -658.5072059331825
+EPOCH: 48
+--------------------
+STEP: 10 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 13
+ - Reward: -930.4928452534741
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  54.663
+ - Duration: 1.84 sec
+--------------------
+VALIDATION
+SCORE:  -853.9679692541288
+EPOCH: 49
+--------------------
+STEP: 2 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 57
+ - Reward: -704.0107274781722
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  167.26
+ - Duration: 7.77 sec
+--------------------
+VALIDATION
+SCORE:  -422.8749737138945
+EPOCH: 50
+--------------------
+STEP: 5 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 51
+ - Reward: -733.7805730755707
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  141.775
+ - Duration: 7.71 sec
+--------------------
+VALIDATION
+SCORE:  -873.81615630602
+EPOCH: 51
+--------------------
+STEP: 12 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 3
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 45
+ - Reward: -773.0111134617152
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  151.358
+ - Duration: 6.79 sec
+--------------------
+VALIDATION
+SCORE:  -682.6055984969338
+EPOCH: 52
+--------------------
+STEP: 2 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 9
+ - Reward: -953.6703515106127
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  160.092
+ - Duration: 1.43 sec
+--------------------
+VALIDATION
+SCORE:  -665.3502924115671
+EPOCH: 53
+--------------------
+STEP: 1 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 25
+ - Reward: -872.9710108908987
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  152.917
+ - Duration: 3.97 sec
+--------------------
+VALIDATION
+SCORE:  -443.32380169056546
+EPOCH: 54
+--------------------
+STEP: 10 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 24
+ - Reward: -875.3331630571911
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  117.793
+ - Duration: 3.83 sec
+--------------------
+VALIDATION
+SCORE:  -689.7493060403573
+EPOCH: 55
+--------------------
+STEP: 3 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 43
+ - Reward: -778.2686617434342
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  148.827
+ - Duration: 6.54 sec
+--------------------
+VALIDATION
+SCORE:  -883.8233887742614
+EPOCH: 56
+--------------------
+STEP: 10 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 24
+ - Reward: -873.2684013443125
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  170.629
+ - Duration: 3.61 sec
+--------------------
+VALIDATION
+SCORE:  -634.9105177360559
+EPOCH: 57
+--------------------
+STEP: 1 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 24
+ - Reward: -879.0589576247415
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  110.976
+ - Duration: 3.59 sec
+--------------------
+VALIDATION
+SCORE:  -667.8218149192437
+EPOCH: 58
+--------------------
+STEP: 6 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 5
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 7
+ - Reward: -963.9877114904139
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  95.227
+ - Duration: 1.11 sec
+--------------------
+VALIDATION
+SCORE:  -851.5691143101535
+EPOCH: 59
+--------------------
+STEP: 6 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 32
+ - Reward: -832.4134666524265
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  183.037
+ - Duration: 5.17 sec
+--------------------
+VALIDATION
+SCORE:  -673.379856448796
+EPOCH: 60
+--------------------
+STEP: 10 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Goal riched
+ - Steps: 68
+ - Reward: 1348.0937267074564
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  192.55
+ - Duration: 10.36 sec
+--------------------
+VALIDATION
+SCORE:  -877.0580827212957
+EPOCH: 61
+--------------------
+STEP: 9 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 23
+ - Reward: -883.6013115575154
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  147.859
+ - Duration: 3.48 sec
+--------------------
+VALIDATION
+SCORE:  -870.1034447629586
+EPOCH: 62
+--------------------
+STEP: 5 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 24
+ - Reward: -874.4812409487537
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  169.044
+ - Duration: 3.72 sec
+--------------------
+VALIDATION
+SCORE:  -209.32830792957807
+EPOCH: 63
+--------------------
+STEP: 11 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 16
+ - Reward: -917.4984237449324
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  126.468
+ - Duration: 2.54 sec
+--------------------
+VALIDATION
+SCORE:  -633.9932986998551
+EPOCH: 64
+--------------------
+STEP: 6 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 29
+ - Reward: -848.4876737138778
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  199.355
+ - Duration: 4.67 sec
+--------------------
+VALIDATION
+SCORE:  -653.5018150050462
+EPOCH: 65
+--------------------
+STEP: 12 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 3
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 37
+ - Reward: -810.2104824921503
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  157.107
+ - Duration: 5.87 sec
+--------------------
+VALIDATION
+SCORE:  -913.085594991945
+EPOCH: 66
+--------------------
+STEP: 12 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 16
+ - Reward: -919.0511248930003
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  270.404
+ - Duration: 2.49 sec
+--------------------
+VALIDATION
+SCORE:  -648.0426807236322
+EPOCH: 67
+--------------------
+STEP: 4 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 4
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 27
+ - Reward: -856.7986125905991
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  260.758
+ - Duration: 4.18 sec
+--------------------
+VALIDATION
+SCORE:  -651.2061373598012
+EPOCH: 68
+--------------------
+STEP: 8 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 29
+ - Reward: -848.5885428699075
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  275.615
+ - Duration: 4.2 sec
+--------------------
+VALIDATION
+SCORE:  -859.8800909389677
+EPOCH: 69
+--------------------
+STEP: 0 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 13
+ - Reward: -933.166831742501
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  243.603
+ - Duration: 1.95 sec
+--------------------
+VALIDATION
+SCORE:  -661.7559126819841
+EPOCH: 70
+--------------------
+STEP: 2 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 13
+ - Reward: -931.5364695552082
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  291.805
+ - Duration: 2.32 sec
+--------------------
+VALIDATION
+SCORE:  -886.7813553472822
+EPOCH: 71
+--------------------
+STEP: 3 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 29
+ - Reward: -851.9977305158178
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  170.686
+ - Duration: 4.73 sec
+--------------------
+VALIDATION
+SCORE:  -627.7418488731572
+EPOCH: 72
+--------------------
+STEP: 7 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 2
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 25
+ - Reward: -873.639524616557
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  162.167
+ - Duration: 3.75 sec
+--------------------
+VALIDATION
+SCORE:  -686.7625258298726
+EPOCH: 73
+--------------------
+STEP: 6 (train)
+ - Alpha = (1, 0, 0)
+ - Alpha_opt = (1, 0, 0)
+ - Danger lev = 1
+ - laerning rate = 0.0001
+ - dt = 0.1
+MODEL saved in:
+ /home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run2
+RESULTS ():
+ - Result: Collision
+ - Steps: 31
+ - Reward: -842.5944177851294
+ - epsilon: 0.872
+ - beta: 0.846
+ - Mem. Capacity: 100.0%
+ - Mean loss:  211.597
+ - Duration: 4.99 sec
+--------------------
+VALIDATION
+Traceback (most recent call last):
+  File "main.py", line 380, in <module>
+    train(agent,env,args,verbose=True)
+  File "main.py", line 84, in train
+    score,goals= cross_validation(agent,env,times=10,verbose=True)
+  File "main.py", line 159, in cross_validation
+    score_model,goals = eval(agent,env,map=None,n=times,mode='random',
+  File "main.py", line 130, in eval
+    new_observation,reward,done = env.step(cmd,alpha)
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 100, in step
+    observation = self.update()
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 112, in update
+    self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
+  File "/home/adriano/Desktop/simple_share_control_RL/laser_scanner.py", line 34, in get_scan
+    points = o.intersection(line)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/geometry/base.py", line 582, in intersection
+    return shapely.intersection(self, other, grid_size=grid_size)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/decorators.py", line 77, in wrapped
+    return func(*args, **kwargs)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/set_operations.py", line 133, in intersection
+    return lib.intersection(a, b, **kwargs)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "main.py", line 380, in <module>
+    train(agent,env,args,verbose=True)
+  File "main.py", line 84, in train
+    score,goals= cross_validation(agent,env,times=10,verbose=True)
+  File "main.py", line 159, in cross_validation
+    score_model,goals = eval(agent,env,map=None,n=times,mode='random',
+  File "main.py", line 130, in eval
+    new_observation,reward,done = env.step(cmd,alpha)
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 100, in step
+    observation = self.update()
+  File "/home/adriano/Desktop/simple_share_control_RL/environment.py", line 112, in update
+    self.ls_ranges,mask =  self.scanner.get_scan(self.robot.state)
+  File "/home/adriano/Desktop/simple_share_control_RL/laser_scanner.py", line 34, in get_scan
+    points = o.intersection(line)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/geometry/base.py", line 582, in intersection
+    return shapely.intersection(self, other, grid_size=grid_size)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/decorators.py", line 77, in wrapped
+    return func(*args, **kwargs)
+  File "/home/adriano/.local/lib/python3.8/site-packages/shapely/set_operations.py", line 133, in intersection
+    return lib.intersection(a, b, **kwargs)
+KeyboardInterrupt

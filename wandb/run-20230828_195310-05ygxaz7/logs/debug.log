@@ -1,0 +1,27 @@
+2023-08-28 19:53:10,156 INFO    MainThread:9465 [wandb_setup.py:_flush():76] Current SDK version is 0.15.8
+2023-08-28 19:53:10,157 INFO    MainThread:9465 [wandb_setup.py:_flush():76] Configure stats pid to 9465
+2023-08-28 19:53:10,157 INFO    MainThread:9465 [wandb_setup.py:_flush():76] Loading settings from /home/adriano/.config/wandb/settings
+2023-08-28 19:53:10,157 INFO    MainThread:9465 [wandb_setup.py:_flush():76] Loading settings from /home/adriano/Desktop/simple_share_control_RL/wandb/settings
+2023-08-28 19:53:10,157 INFO    MainThread:9465 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-08-28 19:53:10,157 INFO    MainThread:9465 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-08-28 19:53:10,158 INFO    MainThread:9465 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'main.py', 'program': 'main.py'}
+2023-08-28 19:53:10,158 INFO    MainThread:9465 [wandb_init.py:_log_setup():507] Logging user logs to /home/adriano/Desktop/simple_share_control_RL/wandb/run-20230828_195310-05ygxaz7/logs/debug.log
+2023-08-28 19:53:10,158 INFO    MainThread:9465 [wandb_init.py:_log_setup():508] Logging internal logs to /home/adriano/Desktop/simple_share_control_RL/wandb/run-20230828_195310-05ygxaz7/logs/debug-internal.log
+2023-08-28 19:53:10,158 INFO    MainThread:9465 [wandb_init.py:init():547] calling init triggers
+2023-08-28 19:53:10,158 INFO    MainThread:9465 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {'learning_rate': 0.0001, 'agent': 'DDQN', 'environment': 'sintetic', 'map': 'random_5obs', 'model_dir': '/home/adriano/Desktop/simple_share_control_RL/weights/DDQN_3Dact_random_new-run3', 'epochs': 500, 'episode_lenght': 200, 'epsilon': 1.0, 'epsilon_decay': 0.9999, 'n_frames': 3, 'n_primitives': 3, 'n_state': 9, 'warmup_episodes': 500, 'ERB_size': 1000, 'batch': 256}
+2023-08-28 19:53:10,159 INFO    MainThread:9465 [wandb_init.py:init():596] starting backend
+2023-08-28 19:53:10,159 INFO    MainThread:9465 [wandb_init.py:init():600] setting up manager
+2023-08-28 19:53:10,162 INFO    MainThread:9465 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-08-28 19:53:10,165 INFO    MainThread:9465 [wandb_init.py:init():606] backend started and connected
+2023-08-28 19:53:10,173 INFO    MainThread:9465 [wandb_init.py:init():697] updated telemetry
+2023-08-28 19:53:10,229 INFO    MainThread:9465 [wandb_init.py:init():730] communicating run to backend with 60.0 second timeout
+2023-08-28 19:53:10,786 INFO    MainThread:9465 [wandb_run.py:_on_init():2180] communicating current version
+2023-08-28 19:53:10,848 INFO    MainThread:9465 [wandb_run.py:_on_init():2189] got version response 
+2023-08-28 19:53:10,849 INFO    MainThread:9465 [wandb_init.py:init():781] starting run threads in backend
+2023-08-28 19:53:11,046 INFO    MainThread:9465 [wandb_run.py:_console_start():2159] atexit reg
+2023-08-28 19:53:11,047 INFO    MainThread:9465 [wandb_run.py:_redirect():2014] redirect: wrap_raw
+2023-08-28 19:53:11,047 INFO    MainThread:9465 [wandb_run.py:_redirect():2079] Wrapping output streams.
+2023-08-28 19:53:11,047 INFO    MainThread:9465 [wandb_run.py:_redirect():2104] Redirects installed.
+2023-08-28 19:53:11,049 INFO    MainThread:9465 [wandb_init.py:init():822] run started, returning control to user process
+2023-08-28 21:34:37,484 WARNING MsgRouterThr:9465 [router.py:message_loop():77] message_loop has been closed

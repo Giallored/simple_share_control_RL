@@ -24,3 +24,4 @@ config: {'learning_rate': 0.0001, 'agent': 'DDQN', 'environment': 'sintetic', 'm
 2023-08-28 18:58:05,570 INFO    MainThread:8119 [wandb_run.py:_redirect():2079] Wrapping output streams.
 2023-08-28 18:58:05,570 INFO    MainThread:8119 [wandb_run.py:_redirect():2104] Redirects installed.
 2023-08-28 18:58:05,573 INFO    MainThread:8119 [wandb_init.py:init():822] run started, returning control to user process
+2023-08-28 19:52:58,025 WARNING MsgRouterThr:8119 [router.py:message_loop():77] message_loop has been closed

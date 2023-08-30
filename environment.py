@@ -206,12 +206,4 @@ class Environment():
         reward = sum(self.cur_rewards)
         return reward
 
-    def collision_forecast(self,v,om):
-        if self.danger ==5:
-            _,_,r_mesh = self.robot.move_simulate(v,om,self.dt)
-            for obs in self.obs_mesh:
-                if not r_mesh.intersection(obs).is_empty:
-                    return True
-        else:
-            return False
 
